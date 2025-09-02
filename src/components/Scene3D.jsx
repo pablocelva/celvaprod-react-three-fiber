@@ -5,7 +5,7 @@ import { Suspense, useRef, useState, useEffect } from "react"
 import { useLocation } from 'react-router-dom'
 
 function Microfono({ route }) {
-    const { scene } = useGLTF("/microfono/scene.gltf")
+    const { scene } = useGLTF("microfono/scene.gltf")
     const ref = useRef()
 
     useFrame(() => {
@@ -70,7 +70,7 @@ const SceneContent = () => {
             <ambientLight intensity={0.5} color={0xf62456} />
             <spotLight position={[0, 10, 5]} angle={Math.PI / 3} penumbra={0.5} intensity={200} castShadow />
             <Microfono route={route} />
-            <Environment files="/enviorments/river_walk_1_4k.hdr" background />
+            <Environment files="enviorments/river_walk_1_4k.hdr" background />
             <OrbitControls
                 //enableZoom={false}
                 enableDamping
