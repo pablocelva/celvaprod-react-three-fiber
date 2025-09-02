@@ -26,7 +26,7 @@ function App() {
   }
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename='/celvaprod-react-three-fiber/'>
         <Scene3D />
         {/* <Scene /> */}
         <Scroll3DController onRouteChange={handleRouteChange} />
