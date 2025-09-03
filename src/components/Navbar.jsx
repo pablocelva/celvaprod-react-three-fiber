@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { IconBrandTidal } from '@tabler/icons-react'
 import { 
     FaInstagram, 
     FaYoutube,
@@ -29,6 +30,9 @@ export default function Navbar() {
                     <li><Link to="/contacto" onClick={handleLinkClick}>Contacto</Link></li>
                 </ul>
                 <div className="logos">
+                    <a href="https://tidal.com/playlist/3e4d6291-c495-4505-a37a-f68530fa30c2" target="_blank" rel="noreferrer">
+                        <IconBrandTidal />
+                    </a>
                     <a href="https://soundcloud.com/pablo-lambert-espinoza" target="_blank" rel="noreferrer">
                         <FaSoundcloud />
                     </a>

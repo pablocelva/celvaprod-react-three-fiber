@@ -3,15 +3,19 @@ import {
     FaYoutube,
     FaSoundcloud
 } from 'react-icons/fa'
+import { IconBrandTidal } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
 export default function Footer() {
     return (
         <footer className="footer">
-            <Link className='img-logo-nav' to="/">
+            {/* <Link className='img-logo-nav' to="/">
                 CELVA<strong>PROD</strong>
-            </Link>
+            </Link> */}
             <div className="logos">
+                <a href="https://tidal.com/playlist/3e4d6291-c495-4505-a37a-f68530fa30c2" target="_blank" rel="noreferrer">
+                    <IconBrandTidal />
+                </a>
                 <a href="https://soundcloud.com/pablo-lambert-espinoza" target="_blank" rel="noreferrer">
                     <FaSoundcloud />
                 </a>
