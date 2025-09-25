@@ -25,11 +25,18 @@ const SceneContent = () => {
     //const cameraRef = useRef()
     const modelRef = useRef()
     const [targetRoute, setTargetRoute] = useState(route)
+    const [exposure, setExposure] = useState(0) 
 
     useEffect(() => {
         setTargetRoute(location.pathname)
     }, [location.pathname])
 
+    useFrame(({ gl }) => {
+        if (exposure < 0.45) {
+            setExposure((prev) => Math.min(prev + 0.008, 0.45))
+        }
+        gl.toneMappingExposure = exposure
+    })
     const targetPositions = {
         "/": { cam: [-2, 3, -5], model: [-2.5, 2, -2] },
         "/servicios": { cam: [6, 2, -5], model: [1, 0.5, -2] },

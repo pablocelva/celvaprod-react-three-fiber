@@ -19,6 +19,7 @@ html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-color: #121212;
 }
 
 nav {
@@ -145,6 +146,37 @@ h1, h2 {
 .cta2:focus,
 .cta2:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.grid-servicios {
+  width: 70%;
+  margin: auto;
+  padding: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  /* background-color: #2e86de; */
+  /* opacity: 0.85; */
+}
+
+.card-servicios {
+  min-width: 250px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 300px;
+  height: 300px;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2em;
+  border-radius: 1rem;
+  background-color: rgba(100, 150, 100, 0.4);
+  backdrop-filter: blur(3px);
+  /* box-shadow: 0 1px 4px var(--color-secundario); */
+  /* background-color: var(--color-secundario); */
 }
 
 .footer {
@@ -352,7 +384,7 @@ button:focus-visible {
     align-items: center;
   }
   .navbar ul {
-    height: 82vh;
+    height: 80vh;
     justify-content: space-evenly;
     display: none;
     padding: 1.2rem 0;
@@ -422,12 +454,21 @@ button:focus-visible {
     width: 90%;
     /* flex-direction: column; */
   }
-  .game-desc-grid {
+  .grid-servicios {
+    /* padding: 0em; */
+    /* width: 70%; */
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    /* flex-direction: column; */
+    justify-content: space-between;
     align-items: center;
     /* gap: 1rem; */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .card-servicios {
+    /* min-width: 250px; */
+    width: 250px;
+    /* height: 250px; */
   }
   .game-about {
     width: 100%;
@@ -489,5 +530,20 @@ button:focus-visible {
     /* margin-top: 3em; */
     /* padding: 3rem 12rem; */
     justify-content: center;
+  }
+}
+
+@media (max-width: 1200px) {
+  .grid-servicios {
+    width: auto;
+    margin: 0 2em;
+    padding-left: 320px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .card-servicios {
+    /* min-width: 250px; */
+    width: 250px;
+    /* height: 250px; */
   }
 }

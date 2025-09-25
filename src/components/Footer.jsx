@@ -1,32 +1,9 @@
-import { 
-    FaInstagram, 
-    FaYoutube,
-    FaSoundcloud
-} from 'react-icons/fa'
-import { IconBrandTidal } from '@tabler/icons-react'
-import { Link } from 'react-router-dom'
+import IconLogos from './IconLogos'
 
 export default function Footer() {
     return (
         <footer className="footer">
-            {/* <Link className='img-logo-nav' to="/">
-                CELVA<strong>PROD</strong>
-            </Link> */}
-            <div className="logos">
-                <a href="https://tidal.com/playlist/3e4d6291-c495-4505-a37a-f68530fa30c2" target="_blank" rel="noreferrer">
-                    <IconBrandTidal />
-                </a>
-                <a href="https://soundcloud.com/pablo-lambert-espinoza" target="_blank" rel="noreferrer">
-                    <FaSoundcloud />
-                </a>
-                <a href="https://youtube.com/@CELVAPROD" target="_blank" rel="noreferrer">
-                    <FaYoutube />
-                </a>
-                <a href="https://instagram.com/celvanegra" target="_blank" rel="noreferrer">
-                    <FaInstagram />
-                </a>
-            </div>
+            <IconLogos />
         </footer>
-        
     )
 }
