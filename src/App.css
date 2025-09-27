@@ -1,6 +1,6 @@
 #root {
-  --color-primario: #ff5733;
-  --color-cuarto: #2e86de;
+  --color-primario: rgba(100, 51, 110, 0.8);
+  --color-cuarto: rgba(100, 150, 100, 0.4);
   --color-texto: #121212;
   --color-fondo: #f1f1f1;
   --color-secundario: #f5cc0e;
@@ -304,7 +304,7 @@ button:focus-visible {
   color: white;
   /* background: linear-gradient(135deg, #4338ca, #4f46e5); */
   transform: translateY(-2px);
-  box-shadow: 0 3px 10px var(--color-secundario);
+  box-shadow: 0 3px 10px var(--color-cuarto);
 }
 
 .contact-form button:active {
