@@ -4,6 +4,9 @@ import Scene from './Scene'
 import Scene3D from './components/Scene3D'
 import Home from './pages/Home'
 import Servicios from './pages/Servicios'
+import Composicion from './pages/Composicion'
+import Produccion from './pages/Produccion'
+import Clases from './pages/Clases'
 import Contacto from './pages/Contacto'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -37,6 +40,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/servicios" element={<Servicios />} />
+            <Route path="/servicios/composicion" element={<Composicion />} />
+            <Route path="/servicios/produccion" element={<Produccion />} />
+            <Route path="/servicios/clases" element={<Clases />} />
             <Route path="/contacto" element={<Contacto />} />
           </Routes>
         </div>

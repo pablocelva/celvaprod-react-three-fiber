@@ -85,6 +85,11 @@ a:hover {
 h1, h2 {
   margin: 0;
   width: 100%;
+  line-height: 1;
+}
+
+p {
+  line-height: 1.5;
 }
 
 .botones-hero {

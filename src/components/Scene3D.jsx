@@ -40,6 +40,9 @@ const SceneContent = () => {
     const targetPositions = {
         "/": { cam: [-2, 3, -5], model: [-2.5, 2, -2] },
         "/servicios": { cam: [6, 2, -5], model: [1, 0.5, -2] },
+        "/servicios/composicion": { cam: [8, 2, -5], model: [1.5, 0.5, -2] },
+        "/servicios/produccion": { cam: [10, 2, -5], model: [2, 0.5, -2] },
+        "/servicios/clases": { cam: [12, 2, -5], model: [2.5, 0.5, -2] },
         "/contacto": { cam: [-5, 1, 3], model: [1, 0.5, -1] }
     }
 
