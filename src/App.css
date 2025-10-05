@@ -82,6 +82,25 @@ a:hover {
   /* background-color: var(--color-cuarto); */
 }
 
+.servicio-desc {
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  /* margin-left: 22%; */
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  border-radius: 1rem;
+  backdrop-filter: blur(1px);
+  background-color: rgba(100, 150, 100, 0.4);
+  /* box-shadow: 0 2px 5px var(--color-cuarto); */
+  /* background-color: var(--color-cuarto); */
+}
+
+ul {
+  list-style: none;
+}
+
 h1, h2 {
   margin: 0;
   width: 100%;

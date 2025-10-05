@@ -14,9 +14,25 @@ export default function Composicion() {
         <>
             <Navbar />
             <div className={`form-container ${visible ? "show" : ""}`}>
-                <div className="about">
+                <div className="servicio-desc">
                     <h1>Composición Musical</h1>
-                    <p>CELVAPROD es un estudio independiente de composición y producción musical</p>
+                    <br />
+                    <h2>🎵 Servicios incluidos:</h2>
+                    <ul>
+                        <li>Composición original sincronizada</li>
+                        <li>Diseño sonoro según requerimientos</li>
+                        <li>2 versiones + 2 revisiones incluidas</li>
+                        <li>Entrega de WAV, MP3 y stems</li>
+                    </ul>
+                    <a href="https://soundcloud.com/pablo-lambert-espinoza" target="_blank" rel="noreferrer">
+                        <button className="cta1">Portafolio de Composición Musical</button>
+                    </a>
+                    <br />
+                    <Link to="/contacto">
+                    {/* <a href="https://www.youtube.com/watch?v=5-9-1zC1o-I&list=PLu-2-3-6-0-7-4-5" target="_blank" rel="noreferrer"> */}
+                        <button className="cta1">Cuéntame de tu proyecto</button>
+                    {/* </a> */}
+                    </Link>
                 </div>
             </div>
         </>
