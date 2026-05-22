@@ -3,9 +3,20 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import { Suspense, useRef, useState, useEffect } from "react"
 import { useLocation } from 'react-router-dom'
+import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader";
+
+
+// Inicializa el loader una sola vez
+const ktx2Loader = new KTX2Loader();
+ktx2Loader.setTranscoderPath("/basis/"); // Carpeta donde están los archivos basisu.wasm/.js
+ktx2Loader.detectSupport(new THREE.WebGLRenderer());
 
 function Microfono({ route, modelRef }) {
     const { scene } = useGLTF("microfono/scene.gltf")
+    //const { scene } = useGLTF("/microfono/scene_compressed.glb")
+    //const { scene } = useGLTF("/microfono/scene_compressed.glb", true, loader => {
+    //loader.setKTX2Loader(ktx2Loader);
+//});
 
     useFrame(() => {
         if (!modelRef.current) return
