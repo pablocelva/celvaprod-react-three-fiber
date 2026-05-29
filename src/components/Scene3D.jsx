@@ -3,6 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import { Suspense, useRef, useState, useEffect, memo, useMemo } from "react"
 import { useLocation } from 'react-router-dom'
+import { useGLTFWithReady } from "../hooks/useGLTFWithReady"
 
 // Componente fallback - cubo simple para testear canvas
 const FallbackModel = memo(function FallbackModel({ modelRef }) {
@@ -21,20 +22,27 @@ const FallbackModel = memo(function FallbackModel({ modelRef }) {
 })
 
 // Componente memoizado para cargar modelo
-const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef }) {
-  const { scene } = useGLTF("/microfono/scene.gltf")
+const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef, onReady }) {
+  const { scene, ready } = useGLTFWithReady("/microfono/scene.gltf")
+  
+  useEffect(() => {
+    if (ready && onReady) {
+      onReady()
+    }
+  }, [ready, onReady])
   
   useFrame(() => {
-    if (!modelRef.current) return
+    if (!modelRef.current || !scene) return
     if (route === "/servicios") modelRef.current.rotation.y += 0.02
     else if (route === "/contacto") modelRef.current.rotation.y -= 0.01
     else modelRef.current.rotation.y += 0.005
   })
 
+  if (!scene) return null
   return <primitive ref={modelRef} object={scene} position={[0, 0.5, -1]} />
 })
 
-const SceneContent = memo(function SceneContent() {
+const SceneContent = memo(function SceneContent({ onModelReady }) {
     const location = useLocation()
     const route = location.pathname
     const modelRef = useRef()
@@ -108,7 +116,7 @@ const SceneContent = memo(function SceneContent() {
             <spotLight position={[0, 10, 5]} angle={Math.PI / 3} penumbra={0.5} intensity={200} castShadow />
             
             <Suspense fallback={<FallbackModel modelRef={modelRef} />}>
-                <MicrofonoModel route={route} modelRef={modelRef} />
+                <MicrofonoModel route={route} modelRef={modelRef} onReady={onModelReady} />
             </Suspense>
             
             <Suspense fallback={null}>
@@ -129,6 +137,7 @@ const SceneContent = memo(function SceneContent() {
 })
 
 export default function Scene3D() {
+    const [modelReady, setModelReady] = useState(false)
     
     return (
         <Canvas
@@ -152,7 +161,7 @@ export default function Scene3D() {
                 alpha: true,
             }}
         >
-            <SceneContent />
+            <SceneContent onModelReady={() => setModelReady(true)} />
         </Canvas>
     )
 }

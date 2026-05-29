@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import LoadingScreen from './components/LoadingScreen'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -25,7 +25,18 @@ function Scroll3DController({ onRouteChange }) {
 }
 
 function App() {
+  const [sceneReady, setSceneReady] = useState(false)
+  
   useWebVitals()
+  
+  useEffect(() => {
+    // Esperar un poco después de que Scene3D monte para marcar como listo
+    const timer = setTimeout(() => {
+      setSceneReady(true)
+    }, 2000) // 2 segundos de buffer
+    
+    return () => clearTimeout(timer)
+  }, [])
   
   const handleRouteChange = (path) => {
     // console.log("Ruta cambiada a:", path)
@@ -33,6 +44,7 @@ function App() {
 
   return (
     <>
+      {!sceneReady && <LoadingScreen />}
       <BrowserRouter>
         <ErrorBoundary>
           <Suspense fallback={<LoadingScreen />}>
