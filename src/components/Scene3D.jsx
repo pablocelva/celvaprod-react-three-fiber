@@ -4,21 +4,47 @@ import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import { Suspense, useRef, useState, useEffect, memo, useMemo } from "react"
 import { useLocation } from 'react-router-dom'
 
-// Preload modelo al montar componente
-useGLTF.preload("/microfono/scene.gltf")
+// Intenta preload del modelo
+try {
+  useGLTF.preload("/microfono/scene.gltf")
+} catch (e) {
+  console.warn("Model preload failed, will use fallback")
+}
 
-// Componente memoizado para evitar re-renders
-const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef }) {
+// Componente fallback - cubo simple para testear canvas
+const FallbackModel = memo(function FallbackModel({ modelRef }) {
+  useFrame(() => {
+    if (modelRef.current) {
+      modelRef.current.rotation.y += 0.005
+    }
+  })
+
+  return (
+    <mesh ref={modelRef} position={[0, 0.5, -1]}>
+      <boxGeometry args={[1, 1.5, 1]} />
+      <meshPhysicalMaterial color={0xf62456} />
+    </mesh>
+  )
+})
+
+// Componente memoizado para cargar modelo
+const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef, onError }) {
+  try {
     const { scene } = useGLTF("/microfono/scene.gltf")
     
     useFrame(() => {
-        if (!modelRef.current) return
-        if (route === "/servicios") modelRef.current.rotation.y += 0.02
-        else if (route === "/contacto") modelRef.current.rotation.y -= 0.01
-        else modelRef.current.rotation.y += 0.005
+      if (!modelRef.current) return
+      if (route === "/servicios") modelRef.current.rotation.y += 0.02
+      else if (route === "/contacto") modelRef.current.rotation.y -= 0.01
+      else modelRef.current.rotation.y += 0.005
     })
 
     return <primitive ref={modelRef} object={scene} position={[0, 0.5, -1]} />
+  } catch (error) {
+    console.warn("Model loading error, using fallback:", error.message)
+    onError?.()
+    return <FallbackModel modelRef={modelRef} />
+  }
 })
 
 const SceneContent = memo(function SceneContent() {
@@ -26,7 +52,8 @@ const SceneContent = memo(function SceneContent() {
     const route = location.pathname
     const modelRef = useRef()
     const [targetRoute, setTargetRoute] = useState(route)
-    const [exposure, setExposure] = useState(0) 
+    const [exposure, setExposure] = useState(0)
+    const [modelError, setModelError] = useState(false)
 
     useEffect(() => {
         setTargetRoute(location.pathname)
@@ -84,8 +111,21 @@ const SceneContent = memo(function SceneContent() {
         <>
             <ambientLight intensity={0.5} color={0xf62456} />
             <spotLight position={[0, 10, 5]} angle={Math.PI / 3} penumbra={0.5} intensity={200} castShadow />
-            <MicrofonoModel route={route} modelRef={modelRef} />
-            <Environment files="/enviorments/river_walk_1_4k.hdr" background />
+            
+            {!modelError ? (
+                <MicrofonoModel 
+                    route={route} 
+                    modelRef={modelRef}
+                    onError={() => setModelError(true)}
+                />
+            ) : (
+                <FallbackModel modelRef={modelRef} />
+            )}
+            
+            <Suspense fallback={null}>
+                <Environment files="/enviorments/river_walk_1_4k.hdr" background />
+            </Suspense>
+            
             <OrbitControls
                 enableDamping
                 enablePan={false}
