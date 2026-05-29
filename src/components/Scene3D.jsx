@@ -154,7 +154,7 @@ export default function Scene3D() {
             dpr={typeof window !== 'undefined' && window.innerWidth <= 768 ? [1, 1] : [1, 1.5]}
             performance={{ min: 0.5, max: 1 }}
             shadows
-            frameloop="auto"
+            frameloop="always"
             camera={{ position: [0, 1, -5], fov: 75 }}
             gl={{ 
                 toneMapping: THREE.NeutralToneMapping, 

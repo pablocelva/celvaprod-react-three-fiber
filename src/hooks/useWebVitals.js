@@ -31,7 +31,9 @@ export function useWebVitals() {
         // First Input Delay (FID) / Interaction to Next Paint (INP)
         const fidObserver = new PerformanceObserver((list) => {
           list.getEntries().forEach((entry) => {
-            console.log('📊 FID/INP (Input Delay):', entry.processingDuration.toFixed(0), 'ms')
+            if (entry.processingDuration) {
+              console.log('📊 FID/INP (Input Delay):', entry.processingDuration.toFixed(0), 'ms')
+            }
           })
         })
         fidObserver.observe({ entryTypes: ['first-input', 'event'] })
