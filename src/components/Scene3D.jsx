@@ -4,13 +4,6 @@ import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import { Suspense, useRef, useState, useEffect, memo, useMemo } from "react"
 import { useLocation } from 'react-router-dom'
 
-// Intenta preload del modelo
-try {
-  useGLTF.preload("/microfono/scene.gltf")
-} catch (e) {
-  console.warn("Model preload failed, will use fallback")
-}
-
 // Componente fallback - cubo simple para testear canvas
 const FallbackModel = memo(function FallbackModel({ modelRef }) {
   useFrame(() => {
@@ -54,6 +47,15 @@ const SceneContent = memo(function SceneContent() {
     const [targetRoute, setTargetRoute] = useState(route)
     const [exposure, setExposure] = useState(0)
     const [modelError, setModelError] = useState(false)
+
+    // Preload modelo en contexto seguro
+    useEffect(() => {
+        try {
+          useGLTF.preload("/microfono/scene.gltf")
+        } catch (e) {
+          // Silent fail - fallback will handle it
+        }
+    }, [])
 
     useEffect(() => {
         setTargetRoute(location.pathname)
