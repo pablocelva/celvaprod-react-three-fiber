@@ -22,12 +22,12 @@ export default function LoadingScreen() {
           width: "50px",
           height: "50px",
           border: "3px solid rgba(246, 36, 86, 0.2)",
-          borderTop: "3px solid #f62456",
+          borderTop: "3px solid green",
           borderRadius: "50%",
           animation: "spin 0.8s linear infinite",
         }} />
         <div style={{
-          color: "#f62456",
+          color: "green",
           fontSize: "14px",
           fontWeight: "500",
         }}>

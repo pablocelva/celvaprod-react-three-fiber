@@ -20,11 +20,13 @@ export function useWebVitals() {
         const clsObserver = new PerformanceObserver((list) => {
           let clsValue = 0
           list.getEntries().forEach((entry) => {
-            if (!entry.hadRecentInput) {
+            if (!entry.hadRecentInput && entry.value) {
               clsValue += entry.value
             }
           })
-          console.log('📊 CLS (Cumulative Layout Shift):', clsValue.toFixed(3))
+          if (clsValue > 0) {
+            console.log('📊 CLS (Cumulative Layout Shift):', clsValue.toFixed(3))
+          }
         })
         clsObserver.observe({ entryTypes: ['layout-shift'] })
 

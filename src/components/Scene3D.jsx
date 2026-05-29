@@ -21,23 +21,17 @@ const FallbackModel = memo(function FallbackModel({ modelRef }) {
 })
 
 // Componente memoizado para cargar modelo
-const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef, onError }) {
-  try {
-    const { scene } = useGLTF("/microfono/scene.gltf")
-    
-    useFrame(() => {
-      if (!modelRef.current) return
-      if (route === "/servicios") modelRef.current.rotation.y += 0.02
-      else if (route === "/contacto") modelRef.current.rotation.y -= 0.01
-      else modelRef.current.rotation.y += 0.005
-    })
+const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef }) {
+  const { scene } = useGLTF("/microfono/scene.gltf")
+  
+  useFrame(() => {
+    if (!modelRef.current) return
+    if (route === "/servicios") modelRef.current.rotation.y += 0.02
+    else if (route === "/contacto") modelRef.current.rotation.y -= 0.01
+    else modelRef.current.rotation.y += 0.005
+  })
 
-    return <primitive ref={modelRef} object={scene} position={[0, 0.5, -1]} />
-  } catch (error) {
-    console.warn("Model loading error, using fallback:", error.message)
-    onError?.()
-    return <FallbackModel modelRef={modelRef} />
-  }
+  return <primitive ref={modelRef} object={scene} position={[0, 0.5, -1]} />
 })
 
 const SceneContent = memo(function SceneContent() {
@@ -46,14 +40,13 @@ const SceneContent = memo(function SceneContent() {
     const modelRef = useRef()
     const [targetRoute, setTargetRoute] = useState(route)
     const [exposure, setExposure] = useState(0)
-    const [modelError, setModelError] = useState(false)
 
     // Preload modelo en contexto seguro
     useEffect(() => {
         try {
           useGLTF.preload("/microfono/scene.gltf")
         } catch (e) {
-          // Silent fail - fallback will handle it
+          // Silent fail
         }
     }, [])
 
@@ -114,15 +107,9 @@ const SceneContent = memo(function SceneContent() {
             <ambientLight intensity={0.5} color={0xf62456} />
             <spotLight position={[0, 10, 5]} angle={Math.PI / 3} penumbra={0.5} intensity={200} castShadow />
             
-            {!modelError ? (
-                <MicrofonoModel 
-                    route={route} 
-                    modelRef={modelRef}
-                    onError={() => setModelError(true)}
-                />
-            ) : (
-                <FallbackModel modelRef={modelRef} />
-            )}
+            <Suspense fallback={<FallbackModel modelRef={modelRef} />}>
+                <MicrofonoModel route={route} modelRef={modelRef} />
+            </Suspense>
             
             <Suspense fallback={null}>
                 <Environment files="/enviorments/river_walk_1_4k.hdr" background />
