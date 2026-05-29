@@ -6,12 +6,12 @@
 
 ```bash
 # Development
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 
 # Production Build
-npm run build
-npm run preview
+pnpm run build
+pnpm run preview
 
 # Deployment (Netlify)
 # Just push to git, Netlify builds automatically
@@ -19,10 +19,19 @@ npm run preview
 
 ## 📊 Performance
 
-- **Bundle Size**: 180 KB (-40% optimizado)
-- **LCP**: 1.19s (excelente)
+### Primera Carga (Cold Start)
+- **LCP**: ~20s (primera vez, descarga assets)
 - **CLS**: 0 (perfecto)
-- **Load Time**: ~3 segundos
+- **INP**: ~60ms (bueno)
+
+### Reload (Cache)
+- **LCP**: ~1.2s (excelente, desde caché)
+- **Bundle Size**: 180 KB (-40% optimizado)
+
+**Nota**: La primera carga es lenta porque descarga:
+- HDRI environment (28MB)
+- Modelo 3D + texturas (6MB)
+- Todo se cachea para reloads rápidos
 
 ## ✨ Features
 
@@ -34,31 +43,38 @@ npm run preview
 - ✅ Code splitting automático
 - ✅ Error handling robusto
 - ✅ Web Vitals monitoring
+- ✅ CSS separado y organizado
 
 ## 🏗️ Architecture
 
 ```
 src/
 ├── components/
-│   ├── Scene3D.jsx          # Canvas 3D principal
-│   ├── ErrorBoundary.jsx    # Manejo de errores
-│   └── LoadingScreen.jsx    # Pantalla de carga
+│   ├── Scene3D.jsx              # Canvas 3D principal
+│   ├── ErrorBoundary.jsx        # Manejo de errores
+│   ├── LoadingScreen.jsx        # Pantalla de carga
+│   ├── Navbar.jsx               # Navegación
+│   ├── Footer.jsx               # Pie de página
+│   ├── ContactForm.jsx          # Formulario
+│   └── *.css                    # Estilos por componente
 ├── hooks/
-│   ├── useGLTFWithReady.js  # Detección de modelos listos
-│   └── useWebVitals.js      # Monitoreo de performance
-├── pages/                   # Rutas
-└── App.jsx                  # App principal
+│   ├── useGLTFWithReady.js      # Detección de modelos listos
+│   └── useWebVitals.js          # Monitoreo de performance
+├── pages/                       # Rutas
+├── App.jsx                      # App principal
+├── App.css                      # Estilos globales
+└── main.jsx                     # Entry point
 ```
 
 ## 🔧 Scripts
 
 ```bash
-npm run dev              # Desarrollo local
-npm run build           # Build producción
-npm run preview         # Preview del build
-npm run lint            # ESLint check
-npm run analyze:assets  # Análisis de assets
-npm run compress:hdr    # Guía de compresión HDRI
+pnpm run dev              # Desarrollo local
+pnpm run build           # Build producción
+pnpm run preview         # Preview del build
+pnpm run lint            # ESLint check
+pnpm run analyze:assets  # Análisis de assets
+pnpm run compress:hdr    # Guía de compresión HDRI
 ```
 
 ## 📦 Deployment
@@ -69,7 +85,7 @@ npm run compress:hdr    # Guía de compresión HDRI
 2. Connect en Netlify
 3. Auto-deployment configurado con `netlify.toml`
 
-**Build Command**: `npm run build`  
+**Build Command**: `pnpm run build`  
 **Publish Directory**: `dist`
 
 ## 🔄 Redirects
@@ -99,14 +115,32 @@ Dist chunks:       max-age=31536000 (1 año, immutable)
 - Canvas optimization (dpr condicional)
 - Web Vitals monitoring
 - Model ready detection
+- CSS separado por componente
+- Error boundaries elegantes
 
 ## 🚀 Próximas Mejoras (Opcional)
 
-- Convertir GLTF → GLB embebido (2 min)
+- Convertir GLTF → GLB embebido (2 min) - mejor performance
 - Descargar HDRI 2K (2 min, 75% reducción)
 - Service Worker para offline support
 
 ## 📞 Troubleshooting
+
+### Primera carga lenta (20+ segundos)
+
+Es **completamente normal y esperado**:
+
+**¿Por qué?**
+1. Primera descarga de HDRI (28MB)
+2. Modelo 3D + texturas (6MB)
+3. Compilación de Three.js
+4. Todo se cachea automáticamente
+
+**¿Cómo mejorarlo?**
+- Usar HDRI 2K en lugar de 4K (-75% tamaño)
+- Convertir modelo a GLB embebido
+
+**Reload es rápido**: Caché del navegador + build compilado (1.2s)
 
 ### WebSocket Error en consola
 
@@ -124,11 +158,11 @@ Es **normal en desarrollo**. Vite HMR. No afecta la app. Ver `TROUBLESHOOTING.md
 
 ## 📈 Performance Targets
 
-| Métrica | Target | Actual |
-|---------|--------|--------|
-| LCP | < 2.5s | 1.19s ✅ |
-| CLS | < 0.1 | 0 ✅ |
-| Bundle | < 200KB | 180KB ✅ |
+| Métrica | Target | Primera Carga | Reload |
+|---------|--------|---------------|--------|
+| LCP | < 2.5s | ~20s | 1.2s ✅ |
+| CLS | < 0.1 | 0 ✅ | 0 ✅ |
+| Bundle | < 200KB | 180KB ✅ | 180KB ✅ |
 
 ## 🛠️ Tech Stack
 
@@ -137,6 +171,7 @@ Es **normal en desarrollo**. Vite HMR. No afecta la app. Ver `TROUBLESHOOTING.md
 - React Three Fiber 9.3.0
 - React Router 7.8.2
 - Vite 7.1.2
+- pnpm (package manager)
 
 ## 📝 License
 
@@ -145,4 +180,5 @@ Privado - CELVAPROD
 ---
 
 **Status**: ✅ Production Ready  
+**Package Manager**: pnpm  
 **Last Updated**: Mayo 29, 2026
