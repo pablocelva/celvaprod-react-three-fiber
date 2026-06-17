@@ -24,7 +24,7 @@ export default function Composicion() {
                         <li>2 versiones + 2 revisiones incluidas</li>
                         <li>Entrega de WAV, MP3 y stems</li>
                     </ul>
-                    <a href="https://soundcloud.com/pablo-lambert-espinoza" target="_blank" rel="noreferrer">
+                    <a href="https://soundcloud.com/celvanegra" target="_blank" rel="noreferrer">
                         <button className="cta1">Portafolio de Composición Musical</button>
                     </a>
                     <br />

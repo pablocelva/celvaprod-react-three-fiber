@@ -3,6 +3,7 @@ import {
     FaInstagram, 
     FaYoutube,
     FaSoundcloud,
+    FaItchIo
 } from 'react-icons/fa'
 
 export default function IconLogos() {
@@ -13,6 +14,9 @@ export default function IconLogos() {
             </a>
             <a href="https://soundcloud.com/celvanegra" target="_blank" rel="noreferrer">
                 <FaSoundcloud />
+            </a>
+            <a href="https://celvanegra.itch.io/" target="_blank" rel="noreferrer">
+                <FaItchIo />
             </a>
             <a href="https://youtube.com/@CELVAPROD" target="_blank" rel="noreferrer">
                 <FaYoutube />
