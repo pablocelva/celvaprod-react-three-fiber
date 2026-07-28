@@ -664,7 +664,11 @@ nav a:hover {
     padding: 1em;
   }
 
-
+  .form-container--contacto {
+    width: 85%;
+    margin: auto;
+    padding: 1em;
+  }
 
   .botones-hero {
     flex-direction: column;

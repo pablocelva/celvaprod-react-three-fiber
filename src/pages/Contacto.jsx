@@ -8,7 +8,7 @@ export default function Contacto() {
             <Navbar />
             {/* <h1>Contacto</h1> */}
             <ContactForm />
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }
