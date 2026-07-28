@@ -14,7 +14,7 @@ export default function Home() {
     return (
         <>
             <Navbar />
-            <div className={`form-container ${visible ? "show" : ""}`}>
+            <div className={`form-container form-container--hero ${visible ? "show" : ""}`}>
                 <div className="about">
                     <h1>CELVAPROD</h1>
                     <p>CELVAPROD es un estudio independiente de composición y producción musical</p>

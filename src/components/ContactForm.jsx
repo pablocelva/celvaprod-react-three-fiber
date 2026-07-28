@@ -8,7 +8,7 @@ export default function ContactForm() {
     }, []);
 
     return (
-        <div className={`form-container ${visible ? "show" : ""}`}>
+        <div className={`form-container form-container--contacto ${visible ? "show" : ""}`}>
             <form 
                 className="contact-form"
                 action="https://formspree.io/f/xjkakang"
