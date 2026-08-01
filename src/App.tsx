@@ -7,7 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import PageLayout from './layouts/PageLayout'
 import { useWebVitals } from './hooks/useWebVitals'
 
-const Scene3D = lazy(() => import('./components/Scene3D'))
+const Scene3D = lazy(() => import('./components/scene/Scene3D'))
 const Home = lazy(() => import('./pages/Home'))
 const Servicios = lazy(() => import('./pages/Servicios'))
 const Composicion = lazy(() => import('./pages/Composicion'))

@@ -39,7 +39,13 @@ pnpm run lint
 ```
 src/
 ├── components/
-│   ├── Scene3D.tsx              # Canvas 3D principal (escena + cámara por ruta)
+│   ├── scene/
+│   │   ├── Scene3D.tsx           # Canvas 3D (config gl, camera, dpr)
+│   │   ├── SceneContent.tsx      # Luces + modelo + environment + controllers
+│   │   ├── CameraController.tsx  # Cámara/modelo por ruta (lerp + rotación + exposure)
+│   │   ├── MicrofonoModel.tsx    # Carga del modelo GLTF
+│   │   ├── FallbackModel.tsx     # Fallback (cubo) mientras carga el modelo
+│   │   └── types.ts              # ModelRef compartido
 │   ├── ContentPanel.tsx         # Contenedor de contenido (variants: card/hero/cards/contacto)
 │   ├── ServiceDetail.tsx        # Panel de detalle de servicio (reutilizable)
 │   ├── ContactForm.tsx          # Formulario de contacto (Formspree)
@@ -50,7 +56,8 @@ src/
 │   ├── ErrorBoundary.tsx        # Manejo de errores de la escena
 │   └── *.css                    # Estilos (global + por componente)
 ├── data/
-│   └── services.ts              # Datos de servicios tipados (composición, producción, clases)
+│   ├── services.ts              # Datos de servicios tipados (composición, producción, clases)
+│   └── sceneTargets.ts          # Posiciones de cámara/modelo por ruta (desktop + mobile)
 ├── hooks/
 │   ├── useFadeIn.ts             # Animación de entrada (fade + slide) — usada por el layout
 │   ├── useGLTFWithReady.ts      # Detección de modelos listos

@@ -44,7 +44,7 @@
 |---|---|---|
 | **3.1 Layout compartido con `<Outlet />`** | `PageLayout` en `src/layouts/` con Navbar + fade-in por ruta + `<Outlet />`. Navbar eliminado de las 6 páginas. `useFadeIn` ahora vive solo en el layout. | ✅ Listo |
 | **3.2 Layout compartido para el contenido** | `ContentPanel` en `src/components/` con `variant: 'card' \| 'hero' \| 'cards' \| 'contacto'`. Reemplaza los `<div className="form-container--*">` duplicados en las 6 páginas. | ✅ Listo |
-| **3.3 Separación de Scene3D** | Dividir `Scene3D.tsx` en `Scene3D` (Canvas), `SceneContent` (luces+modelo), `CameraController` (lógica por ruta). | ⬜ Pendiente |
+| **3.3 Separación de Scene3D** | `src/components/scene/`: `Scene3D` (Canvas), `SceneContent` (luces + modelo + env), `CameraController` (lógica por ruta), `MicrofonoModel`, `FallbackModel`. Posiciones de cámara centralizadas en `src/data/sceneTargets.ts`. Fix: rotación del modelo duplicada (giraba 2x) consolidada. Código muerto (`onModelReady`/`setModelReady`) eliminado. | ✅ Listo |
 | **3.4 Estado de carga global** | Unificar `LoadingScreen` y estado de carga en un solo lugar (Context o Zustand). | ⬜ Pendiente |
 | **3.5 Error boundaries por página** | Agregar `PageErrorBoundary` para cada ruta. | ⬜ Pendiente |
 
