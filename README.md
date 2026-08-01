@@ -1,6 +1,6 @@
 # CELVAPROD React Three.js
 
-> Proyecto Three.js + React completamente optimizado para producción. Renderizado 3D con modelo interactivo y animaciones fluidas.
+> Landing 3D inmersivo con React Three Fiber. Escena 360° con modelo interactivo y navegación por rutas sin scroll vertical.
 
 ## 🚀 Quick Start
 
@@ -13,68 +13,75 @@ pnpm run dev
 pnpm run build
 pnpm run preview
 
-# Deployment (Netlify)
-# Just push to git, Netlify builds automatically
+# Type Check
+pnpm exec tsc -b --noEmit
+
+# Lint
+pnpm run lint
 ```
-
-## 📊 Performance
-
-### Primera Carga (Cold Start)
-- **LCP**: ~20s (primera vez, descarga assets)
-- **CLS**: 0 (perfecto)
-- **INP**: ~60ms (bueno)
-
-### Reload (Cache)
-- **LCP**: ~1.2s (excelente, desde caché)
-- **Bundle Size**: 180 KB (-40% optimizado)
-
-**Nota**: La primera carga es lenta porque descarga:
-- HDRI environment (28MB)
-- Modelo 3D + texturas (6MB)
-- Todo se cachea para reloads rápidos
 
 ## ✨ Features
 
-- ✅ Escena 3D interactiva con Three.js
-- ✅ OrbitControls para navegación
-- ✅ HDRI environment dinámico
-- ✅ Animaciones suaves
-- ✅ Carga responsive
-- ✅ Code splitting automático
-- ✅ Error handling robusto
+- ✅ Escena 3D interactiva con React Three Fiber + Three.js
+- ✅ Navegación por rutas con React Router (SPA, sin scroll vertical)
+- ✅ Transiciones de cámara 3D por ruta (lerp)
+- ✅ **TypeScript al 100%** — 28 archivos `.tsx`/`.ts`, modo estricto
+- ✅ Datos de servicios centralizados y tipados (`src/data/services.ts`)
+- ✅ Tipos de dominio en `src/types/` (service, navigation, contact, scene)
+- ✅ Hook `useFadeIn` reutilizable para animación de entrada
+- ✅ Variables CSS semánticas + tokens de diseño
+- ✅ Code splitting por ruta (chunks separados)
+- ✅ Error handling robusto (ErrorBoundary en la escena 3D)
 - ✅ Web Vitals monitoring
-- ✅ CSS separado y organizado
 
 ## 🏗️ Architecture
 
 ```
 src/
 ├── components/
-│   ├── Scene3D.jsx              # Canvas 3D principal
-│   ├── ErrorBoundary.jsx        # Manejo de errores
-│   ├── LoadingScreen.jsx        # Pantalla de carga
-│   ├── Navbar.jsx               # Navegación
-│   ├── Footer.jsx               # Pie de página
-│   ├── ContactForm.jsx          # Formulario
-│   └── *.css                    # Estilos por componente
+│   ├── Scene3D.tsx              # Canvas 3D principal (escena + cámara por ruta)
+│   ├── ServiceDetail.tsx        # Panel de detalle de servicio (reutilizable)
+│   ├── ContactForm.tsx          # Formulario de contacto (Formspree)
+│   ├── Navbar.tsx               # Navegación
+│   ├── IconLogos.tsx            # Iconos sociales
+│   ├── Footer.tsx               # Pie de página
+│   ├── LoadingScreen.tsx        # Pantalla de carga
+│   ├── ErrorBoundary.tsx        # Manejo de errores de la escena
+│   └── *.css                    # Estilos (global + por componente)
+├── data/
+│   └── services.ts              # Datos de servicios tipados (composición, producción, clases)
 ├── hooks/
-│   ├── useGLTFWithReady.js      # Detección de modelos listos
-│   └── useWebVitals.js          # Monitoreo de performance
-├── pages/                       # Rutas
-├── App.jsx                      # App principal
-├── App.css                      # Estilos globales
-└── main.jsx                     # Entry point
+│   ├── useFadeIn.ts             # Animación de entrada (fade + slide)
+│   ├── useGLTFWithReady.ts      # Detección de modelos listos
+│   ├── useOptimizedGLTF.ts      # Carga y caché de modelos 3D
+│   └── useWebVitals.ts          # Monitoreo de performance
+├── pages/                       # Rutas (Home, Servicios, detalle, Contacto)
+├── types/                       # Tipos de dominio (service, navigation, contact, scene)
+├── App.tsx                      # App principal (routing + scene ready)
+├── App.css                      # Estilos globales (variables, reset, layout)
+└── main.tsx                     # Entry point
 ```
+
+## 📚 Documentation
+
+Toda la documentación vive en `docs/`:
+
+| Archivo | Contenido |
+|---|---|
+| `docs/PLAN_MEJORAS.md` | Plan de mejoras con estado de cada tarea (✅/🔶/⬜) |
+| `docs/OPTIMIZATION_GUIDE.md` | Detalles técnicos de optimizaciones |
+| `docs/TROUBLESHOOTING.md` | FAQ y soluciones a problemas comunes |
 
 ## 🔧 Scripts
 
 ```bash
 pnpm run dev              # Desarrollo local
-pnpm run build           # Build producción
-pnpm run preview         # Preview del build
-pnpm run lint            # ESLint check
-pnpm run analyze:assets  # Análisis de assets
-pnpm run compress:hdr    # Guía de compresión HDRI
+pnpm run build            # Build producción
+pnpm run preview          # Preview del build
+pnpm run lint             # ESLint check
+pnpm exec tsc -b --noEmit # Type check estricto
+pnpm run analyze:assets   # Análisis de assets
+pnpm run compress:hdr     # Guía de compresión HDRI
 ```
 
 ## 📦 Deployment
@@ -88,11 +95,7 @@ pnpm run compress:hdr    # Guía de compresión HDRI
 **Build Command**: `pnpm run build`  
 **Publish Directory**: `dist`
 
-## 🔄 Redirects
-
-SPA routing automático configurado en `netlify.toml`:
-- Todas las rutas apuntan a `/index.html`
-- React Router maneja la navegación
+SPA routing automático: todas las rutas apuntan a `/index.html`, React Router maneja la navegación.
 
 ## 💾 Caching Strategy
 
@@ -101,76 +104,27 @@ Assets normales:   max-age=3600 (1 hora)
 Dist chunks:       max-age=31536000 (1 año, immutable)
 ```
 
-## 📚 Documentation
-
-- **OPTIMIZATION_GUIDE.md** - Detalles técnicos de optimizaciones
-- **TROUBLESHOOTING.md** - FAQ y soluciones
-
 ## 🎯 Optimizaciones Implementadas
 
-- Code splitting (Three.js en chunk separado)
+- Code splitting (Three.js en chunk separado, ~335KB gzip)
 - React.lazy() para rutas
-- Memoización de componentes
-- Preload inteligente de modelos
-- Canvas optimization (dpr condicional)
+- Memoización de componentes (`memo`)
+- Preload inteligente de modelos (`useGLTF.preload`)
+- Canvas optimization (dpr condicional según viewport)
 - Web Vitals monitoring
 - Model ready detection
-- CSS separado por componente
-- Error boundaries elegantes
-
-## 🚀 Próximas Mejoras (Opcional)
-
-- Convertir GLTF → GLB embebido (2 min) - mejor performance
-- Descargar HDRI 2K (2 min, 75% reducción)
-- Service Worker para offline support
-
-## 📞 Troubleshooting
-
-### Primera carga lenta (20+ segundos)
-
-Es **completamente normal y esperado**:
-
-**¿Por qué?**
-1. Primera descarga de HDRI (28MB)
-2. Modelo 3D + texturas (6MB)
-3. Compilación de Three.js
-4. Todo se cachea automáticamente
-
-**¿Cómo mejorarlo?**
-- Usar HDRI 2K en lugar de 4K (-75% tamaño)
-- Convertir modelo a GLB embebido
-
-**Reload es rápido**: Caché del navegador + build compilado (1.2s)
-
-### WebSocket Error en consola
-
-```
-[vite] failed to connect to websocket
-```
-
-Es **normal en desarrollo**. Vite HMR. No afecta la app. Ver `TROUBLESHOOTING.md`.
-
-### Modelo no carga
-
-1. Verificar que `public/microfono/scene.gltf` existe
-2. Revisar DevTools Network
-3. Si falla, se muestra fallback automático
-
-## 📈 Performance Targets
-
-| Métrica | Target | Primera Carga | Reload |
-|---------|--------|---------------|--------|
-| LCP | < 2.5s | ~20s | 1.2s ✅ |
-| CLS | < 0.1 | 0 ✅ | 0 ✅ |
-| Bundle | < 200KB | 180KB ✅ | 180KB ✅ |
+- Tipado estricto en toda la app
+- Hook `useFadeIn` para animaciones consistentes
 
 ## 🛠️ Tech Stack
 
 - React 19.1.1
+- TypeScript (modo estricto)
 - Three.js 0.179.1
 - React Three Fiber 9.3.0
+- @react-three/drei 10.7.4
 - React Router 7.8.2
-- Vite 7.1.2
+- Vite 7.x
 - pnpm (package manager)
 
 ## 📝 License
@@ -181,4 +135,5 @@ Privado - CELVAPROD
 
 **Status**: ✅ Production Ready  
 **Package Manager**: pnpm  
-**Last Updated**: Mayo 29, 2026
+**Language**: TypeScript (100%)  
+**Last Updated**: Agosto 2026

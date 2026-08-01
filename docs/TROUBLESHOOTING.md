@@ -283,10 +283,8 @@ npm run dev
 ## 📞 Recursos de Ayuda
 
 ### Documentación Interna
-- `OPTIMIZATION_GUIDE.md` - Guía técnica
-- `QUICK_OPTIMIZATION.md` - Quick start
-- `README_OPTIMIZATIONS.md` - Status
-- `SUMMARY.md` - Resumen ejecutivo
+- `docs/OPTIMIZATION_GUIDE.md` - Guía técnica
+- `docs/PLAN_MEJORAS.md` - Plan de mejoras con estado de tareas
 
 ### Recursos Externos
 - **React Docs**: https://react.dev
