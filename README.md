@@ -40,6 +40,7 @@ pnpm run lint
 src/
 ├── components/
 │   ├── Scene3D.tsx              # Canvas 3D principal (escena + cámara por ruta)
+│   ├── ContentPanel.tsx         # Contenedor de contenido (variants: card/hero/cards/contacto)
 │   ├── ServiceDetail.tsx        # Panel de detalle de servicio (reutilizable)
 │   ├── ContactForm.tsx          # Formulario de contacto (Formspree)
 │   ├── Navbar.tsx               # Navegación
@@ -51,10 +52,12 @@ src/
 ├── data/
 │   └── services.ts              # Datos de servicios tipados (composición, producción, clases)
 ├── hooks/
-│   ├── useFadeIn.ts             # Animación de entrada (fade + slide)
+│   ├── useFadeIn.ts             # Animación de entrada (fade + slide) — usada por el layout
 │   ├── useGLTFWithReady.ts      # Detección de modelos listos
 │   ├── useOptimizedGLTF.ts      # Carga y caché de modelos 3D
 │   └── useWebVitals.ts          # Monitoreo de performance
+├── layouts/
+│   └── PageLayout.tsx           # Layout compartido: Navbar + fade-in + <Outlet />
 ├── pages/                       # Rutas (Home, Servicios, detalle, Contacto)
 ├── types/                       # Tipos de dominio (service, navigation, contact, scene)
 ├── App.tsx                      # App principal (routing + scene ready)

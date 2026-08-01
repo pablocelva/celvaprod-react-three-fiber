@@ -68,7 +68,7 @@ const SceneContent = memo(function SceneContent({ onModelReady }: SceneContentPr
     useEffect(() => {
         try {
           useGLTF.preload("/microfono/scene.gltf")
-        } catch (e) {
+        } catch (_e) {
           // Silent fail
         }
     }, [])

@@ -42,8 +42,8 @@
 
 | Sub-tarea | Descripción | Estado |
 |---|---|---|
-| **3.1 Layout compartido con `<Outlet />`** | Crear `PageLayout` que contenga Navbar + animación + contenedor. Elimina `<Navbar />` repetido en cada página. | ⬜ Pendiente — **siguiente paso** |
-| **3.2 Layout compartido para el contenido** | Unificar `.form-container--card/hero/contacto` en un `ContentPanel` parametrizable. | ⬜ Pendiente |
+| **3.1 Layout compartido con `<Outlet />`** | `PageLayout` en `src/layouts/` con Navbar + fade-in por ruta + `<Outlet />`. Navbar eliminado de las 6 páginas. `useFadeIn` ahora vive solo en el layout. | ✅ Listo |
+| **3.2 Layout compartido para el contenido** | `ContentPanel` en `src/components/` con `variant: 'card' \| 'hero' \| 'cards' \| 'contacto'`. Reemplaza los `<div className="form-container--*">` duplicados en las 6 páginas. | ✅ Listo |
 | **3.3 Separación de Scene3D** | Dividir `Scene3D.tsx` en `Scene3D` (Canvas), `SceneContent` (luces+modelo), `CameraController` (lógica por ruta). | ⬜ Pendiente |
 | **3.4 Estado de carga global** | Unificar `LoadingScreen` y estado de carga en un solo lugar (Context o Zustand). | ⬜ Pendiente |
 | **3.5 Error boundaries por página** | Agregar `PageErrorBoundary` para cada ruta. | ⬜ Pendiente |
@@ -72,7 +72,7 @@
 
 | Tarea | Descripción | Estado |
 |---|---|---|
-| ESLint stricter | Reglas: `react-hooks/exhaustive-deps`, `import/order`. (TS ya cubre prop-types.) | ⬜ Pendiente |
+| ESLint stricter | Configurado `typescript-eslint` (recomendado). TS bajado a 5.9 (compat). Lint **verde**: 0 errores. Falta: `react-hooks/exhaustive-deps`, `import/order`. | 🔶 Parcial |
 | Husky + lint-staged | Pre-commit hooks que corren ESLint automáticamente. | ⬜ Pendiente |
 | Pruebas mínimas | Vitest + React Testing Library para componentes clave. | ⬜ Pendiente |
 

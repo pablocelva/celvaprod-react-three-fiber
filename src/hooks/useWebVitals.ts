@@ -83,7 +83,7 @@ export function useWebVitals(): void {
         fidObserver?.disconnect()
         window.removeEventListener('load', onLoad)
       }
-    } catch (e) {
+    } catch (_e) {
       console.warn('Web Vitals not fully supported')
     }
   }, [])

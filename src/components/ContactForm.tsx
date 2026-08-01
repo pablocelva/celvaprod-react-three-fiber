@@ -1,10 +1,8 @@
-import { useFadeIn } from '../hooks/useFadeIn'
+import ContentPanel from './ContentPanel'
 
 export default function ContactForm() {
-    const { className } = useFadeIn()
-
     return (
-        <div className={`form-container form-container--contacto ${className}`}>
+        <ContentPanel variant="contacto">
             <form 
                 className="contact-form"
                 action="https://formspree.io/f/xjkakang"
@@ -62,6 +60,6 @@ export default function ContactForm() {
                     Enviar
                 </button>
             </form>
-        </div>
+        </ContentPanel>
     )
 }

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import { useFadeIn } from '../hooks/useFadeIn'
+import ContentPanel from '../components/ContentPanel'
 
 interface ServiceCard {
   title: string
@@ -31,26 +30,21 @@ const cards: ServiceCard[] = [
 ]
 
 export default function Servicios() {
-    const { className } = useFadeIn()
-
     return (
-        <>
-            <Navbar />
-            <div className={`form-container form-container--cards ${className}`}>
-                <h2>Servicios</h2>
-                <div className="grid-servicios">
-                    {cards.map((card) => (
-                        <div key={card.title} className="card-servicios">
-                            <div className="card-servicios__accent" style={{ backgroundColor: card.color }} />
-                            <h3>{card.title}</h3>
-                            <p>{card.desc}</p>
-                            <Link to={card.link}>
-                                <button className="cta1" style={{ borderColor: card.color, color: card.color }}>Más info</button>
-                            </Link>
-                        </div>
-                    ))}
-                </div>
+        <ContentPanel variant="cards">
+            <h2>Servicios</h2>
+            <div className="grid-servicios">
+                {cards.map((card) => (
+                    <div key={card.title} className="card-servicios">
+                        <div className="card-servicios__accent" style={{ backgroundColor: card.color }} />
+                        <h3>{card.title}</h3>
+                        <p>{card.desc}</p>
+                        <Link to={card.link}>
+                            <button className="cta1" style={{ borderColor: card.color, color: card.color }}>Más info</button>
+                        </Link>
+                    </div>
+                ))}
             </div>
-        </>
+        </ContentPanel>
     )
 }

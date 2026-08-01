@@ -4,6 +4,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import LoadingScreen from './components/LoadingScreen'
 import ErrorBoundary from './components/ErrorBoundary'
+import PageLayout from './layouts/PageLayout'
 import { useWebVitals } from './hooks/useWebVitals'
 
 const Scene3D = lazy(() => import('./components/Scene3D'))
@@ -62,12 +63,14 @@ function App() {
         }}>
           <Suspense fallback={<LoadingScreen />}>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/servicios" element={<Servicios />} />
-              <Route path="/servicios/composicion" element={<Composicion />} />
-              <Route path="/servicios/produccion" element={<Produccion />} />
-              <Route path="/servicios/clases" element={<Clases />} />
-              <Route path="/contacto" element={<Contacto />} />
+              <Route element={<PageLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/servicios" element={<Servicios />} />
+                <Route path="/servicios/composicion" element={<Composicion />} />
+                <Route path="/servicios/produccion" element={<Produccion />} />
+                <Route path="/servicios/clases" element={<Clases />} />
+                <Route path="/contacto" element={<Contacto />} />
+              </Route>
             </Routes>
           </Suspense>
         </div>
