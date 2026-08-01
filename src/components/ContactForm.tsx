@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useFadeIn } from '../hooks/useFadeIn'
 
 export default function ContactForm() {
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => setVisible(true), 50); // pequeña espera para activar transición
-    }, []);
+    const { className } = useFadeIn()
 
     return (
-        <div className={`form-container form-container--contacto ${visible ? "show" : ""}`}>
+        <div className={`form-container form-container--contacto ${className}`}>
             <form 
                 className="contact-form"
                 action="https://formspree.io/f/xjkakang"
@@ -54,7 +50,7 @@ export default function ContactForm() {
                     <textarea 
                         name="message" 
                         placeholder="Escribe tu mensaje..." 
-                        rows="4" 
+                        rows={4} 
                         required 
                         className="block w-full border rounded p-2 my-2"
                         />

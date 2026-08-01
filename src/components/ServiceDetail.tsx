@@ -1,19 +1,24 @@
 import { useNavigate } from 'react-router-dom'
-import { IconMusic, IconMicrophone, IconSchool, IconArrowLeft, IconHeadphones, IconSend } from '@tabler/icons-react'
+import { IconMusic, IconMicrophone, IconSchool, IconArrowLeft, IconHeadphones, IconSend, type Icon } from '@tabler/icons-react'
+import type { Service } from '../types'
 
-const iconMap = {
+const iconMap: Record<string, Icon> = {
   music: IconMusic,
   microphone: IconMicrophone,
   school: IconSchool,
 }
 
-export default function ServiceDetail({ service }) {
+interface ServiceDetailProps {
+  service: Service
+}
+
+export default function ServiceDetail({ service }: ServiceDetailProps) {
   const navigate = useNavigate()
   const Icon = iconMap[service.icon]
   const accent = service.color
 
   return (
-    <div className="service-detail" style={{ '--accent': accent }}>
+    <div className="service-detail" style={{ '--accent': accent } as React.CSSProperties}>
       <button className="service-detail__back" onClick={() => navigate('/servicios')}>
         <IconArrowLeft size={18} /> Volver
       </button>

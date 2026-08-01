@@ -1,6 +1,5 @@
 import Navbar from '../components/Navbar'
 import ContactForm from '../components/ContactForm'
-import Footer from '../components/Footer'
 
 export default function Contacto() {
     return (
@@ -8,7 +7,6 @@ export default function Contacto() {
             <Navbar />
             {/* <h1>Contacto</h1> */}
             <ContactForm />
-            {/* <Footer /> */}
         </>
     )
 }

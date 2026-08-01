@@ -1,4 +1,6 @@
-export const services = {
+import type { ServiceMap } from '../types'
+
+export const services: ServiceMap = {
   composicion: {
     id: 'composicion',
     title: 'Composición Musical',

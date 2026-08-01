@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import { useFadeIn } from '../hooks/useFadeIn'
 
-const cards = [
+interface ServiceCard {
+  title: string
+  desc: string
+  link: string
+  color: string
+}
+
+const cards: ServiceCard[] = [
   {
     title: 'Composición Musical',
     desc: 'Si necesitas ayuda para la música de tu proyecto, sean canciones, beats, bandas sonoras, diseño sonoro.',
@@ -24,16 +31,12 @@ const cards = [
 ]
 
 export default function Servicios() {
-    const [visible, setVisible] = useState(false)
-
-    useEffect(() => {
-        setTimeout(() => setVisible(true), 50)
-    }, [])
+    const { className } = useFadeIn()
 
     return (
         <>
             <Navbar />
-            <div className={`form-container form-container--cards ${visible ? "show" : ""}`}>
+            <div className={`form-container form-container--cards ${className}`}>
                 <h2>Servicios</h2>
                 <div className="grid-servicios">
                     {cards.map((card) => (

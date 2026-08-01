@@ -15,14 +15,40 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --color-primario: rgba(100, 51, 110, 0.8);
-  --color-cuarto: rgba(100, 150, 100, 0.4);
-  --color-texto: #121212;
-  --color-fondo: #f1f1f1;
-  --color-secundario: #f5cc0e;
-  --color-azul: #3300cc;
-  --color-rojo: #ff0000;
-  --color-verde: #00913d;
+  /* === Semantic colors === */
+  --color-primary: rgba(100, 51, 110, 0.8);
+  --color-accent: #f5cc0e;
+  --color-green: #00913d;
+  --color-green-soft: rgba(100, 150, 100, 0.4);
+  --color-blue: #3300cc;
+  --color-red: #ff0000;
+  --color-dark: #121212;
+  --color-light: #f1f1f1;
+
+  /* === Tokens === */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  --z-canvas: 0;
+  --z-content: 1;
+  --z-navbar: 10;
+  --z-loading: 100;
+
+  --radius-card: 1rem;
+  --transition-fade: 0.6s ease;
+
+  /* === Legacy aliases (deprecated) === */
+  --color-primario: var(--color-primary);
+  --color-cuarto: var(--color-green-soft);
+  --color-texto: var(--color-dark);
+  --color-fondo: var(--color-light);
+  --color-secundario: var(--color-accent);
+  --color-azul: var(--color-blue);
+  --color-rojo: var(--color-red);
+  --color-verde: var(--color-green);
 }
 
 html, body, #root {
@@ -65,7 +91,7 @@ a:hover {
 }
 
 button {
-  background-color: var(--color-secundario);
+  background-color: var(--color-accent);
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -78,7 +104,7 @@ button {
 
 button:hover {
   color: #f1f1f1;
-  background-color: var(--color-primario);
+  background-color: var(--color-primary);
 }
 
 button:focus,
@@ -119,7 +145,7 @@ nav a {
 }
 
 nav a:hover {
-  color: var(--color-secundario);
+  color: var(--color-accent);
   transform: translate(0, -4px);
 }
 
@@ -139,7 +165,7 @@ nav a:hover {
   font-size: 1.5rem;
   background: none;
   border: none;
-  color: var(--color-secundario);
+  color: var(--color-accent);
 }
 
 /* ========================================
@@ -217,7 +243,7 @@ nav a:hover {
   width: 240px;
   background-color: transparent;
   border-radius: 8px;
-  border: 3px solid var(--color-secundario);
+  border: 3px solid var(--color-accent);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -228,7 +254,7 @@ nav a:hover {
 
 .cta1:hover {
   color: #f1f1f1;
-  background-color: var(--color-primario);
+  background-color: var(--color-primary);
 }
 
 .cta1:focus,
@@ -238,7 +264,7 @@ nav a:hover {
 
 .cta2 {
   width: 240px;
-  background-color: var(--color-secundario);
+  background-color: var(--color-accent);
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -251,7 +277,7 @@ nav a:hover {
 
 .cta2:hover {
   color: #f1f1f1;
-  background-color: var(--color-primario);
+  background-color: var(--color-primary);
 }
 
 .cta2:focus,
@@ -343,7 +369,7 @@ nav a:hover {
   padding: 0 1.5rem;
   backdrop-filter: blur(10px);
   border-radius: 1rem;
-  box-shadow: 0 4px 15px var(--color-secundario);
+  box-shadow: 0 4px 15px var(--color-accent);
 }
 
 .form-container--contacto {
@@ -391,7 +417,7 @@ nav a:hover {
 .contact-form input:focus,
 .contact-form textarea:focus,
 .contact-form select:focus {
-  box-shadow: 0 0 0 3px var(--color-secundario);
+  box-shadow: 0 0 0 3px var(--color-accent);
 }
 
 .contact-form textarea {
@@ -412,12 +438,12 @@ nav a:hover {
 .contact-form button:hover {
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 3px 10px var(--color-cuarto);
+  box-shadow: 0 3px 10px var(--color-green-soft);
 }
 
 .contact-form button:active {
   transform: translateY(0);
-  box-shadow: 0 3px 8px var(--color-cuarto);
+  box-shadow: 0 3px 8px var(--color-green-soft);
 }
 
 /* ========================================

@@ -1,20 +1,16 @@
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import IconLogos from '../components/IconLogos'
+import { useFadeIn } from '../hooks/useFadeIn'
 
 export default function Home() {
 
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => setVisible(true), 50); // pequeña espera para activar transición
-    }, []);
+    const { className } = useFadeIn()
     
     return (
         <>
             <Navbar />
-            <div className={`form-container form-container--hero ${visible ? "show" : ""}`}>
+            <div className={`form-container form-container--hero ${className}`}>
                 <div className="about">
                     <h1>CELVAPROD</h1>
                     <p>CELVAPROD es un estudio independiente de composición y producción musical</p>

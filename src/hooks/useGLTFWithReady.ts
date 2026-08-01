@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
+import type { Group } from 'three'
+
+interface UseGLTFWithReadyReturn {
+  scene: Group | null
+  ready: boolean
+}
 
 /**
  * Hook personalizado que indica cuando un modelo GLTF está completamente listo
  * Devuelve tanto la scene como un boolean indicando si está lista
- * 
- * @param {string} path - Ruta del modelo
- * @returns {Object} - { scene, ready }
  */
-export function useGLTFWithReady(path) {
+export function useGLTFWithReady(path: string): UseGLTFWithReadyReturn {
   const [ready, setReady] = useState(false)
   const gltf = useGLTF(path)
 
   useEffect(() => {
-    // Cuando useGLTF carga, marcamos como ready
     if (gltf && gltf.scene) {
       setReady(true)
     }
   }, [gltf])
 
   return {
-    scene: gltf?.scene,
-    ready
+    scene: (gltf?.scene as Group) ?? null,
+    ready,
   }
 }
 

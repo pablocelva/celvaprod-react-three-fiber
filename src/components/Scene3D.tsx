@@ -4,9 +4,24 @@ import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import { Suspense, useRef, useState, useEffect, memo, useMemo } from "react"
 import { useLocation } from 'react-router-dom'
 import { useGLTFWithReady } from "../hooks/useGLTFWithReady"
+import type { Group, Mesh } from "three"
+import type { RouteName, TargetPositions } from "../types"
+
+interface ModelRefProps {
+  modelRef: React.RefObject<Group | null>
+}
+
+interface MicrofonoModelProps extends ModelRefProps {
+  route: string
+  onReady?: () => void
+}
+
+interface SceneContentProps {
+  onModelReady: () => void
+}
 
 // Componente fallback - cubo simple para testear canvas
-const FallbackModel = memo(function FallbackModel({ modelRef }) {
+const FallbackModel = memo(function FallbackModel({ modelRef }: ModelRefProps) {
   useFrame(() => {
     if (modelRef.current) {
       modelRef.current.rotation.y += 0.005
@@ -14,7 +29,7 @@ const FallbackModel = memo(function FallbackModel({ modelRef }) {
   })
 
   return (
-    <mesh ref={modelRef} position={[0, 0.5, -1]}>
+    <mesh ref={modelRef as React.RefObject<Mesh | null>} position={[0, 0.5, -1]}>
       <boxGeometry args={[1, 1.5, 1]} />
       <meshPhysicalMaterial color={0xf62456} />
     </mesh>
@@ -22,7 +37,7 @@ const FallbackModel = memo(function FallbackModel({ modelRef }) {
 })
 
 // Componente memoizado para cargar modelo
-const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef, onReady }) {
+const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef, onReady }: MicrofonoModelProps) {
   const { scene, ready } = useGLTFWithReady("/microfono/scene.gltf")
   
   useEffect(() => {
@@ -42,10 +57,10 @@ const MicrofonoModel = memo(function MicrofonoModel({ route, modelRef, onReady }
   return <primitive ref={modelRef} object={scene} position={[0, 0.5, -1]} />
 })
 
-const SceneContent = memo(function SceneContent({ onModelReady }) {
+const SceneContent = memo(function SceneContent({ onModelReady }: SceneContentProps) {
     const location = useLocation()
     const route = location.pathname
-    const modelRef = useRef()
+    const modelRef = useRef<Group>(null)
     const [targetRoute, setTargetRoute] = useState(route)
     const [exposure, setExposure] = useState(0)
 
@@ -69,7 +84,7 @@ const SceneContent = memo(function SceneContent({ onModelReady }) {
         gl.toneMappingExposure = exposure
     })
 
-    const targetPositions = useMemo(() => ({
+    const targetPositions = useMemo<TargetPositions>(() => ({
         "/": { cam: [-2, 3, -5], model: [-2.5, 2, -2] },
         "/servicios": { cam: [6, 2, -5], model: [1, 0.5, -2] },
         "/servicios/composicion": { cam: [8, 2, -5], model: [1.5, 0.5, -2] },
@@ -82,7 +97,7 @@ const SceneContent = memo(function SceneContent({ onModelReady }) {
         if (!targetRoute) return
 
         const t = 0.095 
-        let { cam, model } = targetPositions[targetRoute]
+        let { cam, model } = targetPositions[targetRoute as RouteName]
 
         // Detectar mobile
         const isMobile = window.innerWidth <= 768
@@ -137,7 +152,7 @@ const SceneContent = memo(function SceneContent({ onModelReady }) {
 })
 
 export default function Scene3D() {
-    const [modelReady, setModelReady] = useState(false)
+    const [, setModelReady] = useState(false)
     
     return (
         <Canvas

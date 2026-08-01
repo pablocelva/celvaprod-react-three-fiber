@@ -1,8 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import * as THREE from "three"
-import { Suspense } from "react"
-import Loader from "./Loader"
 
 function Microfono() {
     const { scene } = useGLTF("/microfono/scene.gltf")
@@ -29,10 +27,8 @@ export default function Scene() {
         camera={{ position: [0, 0, 5], fov: 75 }}
         gl={{ toneMapping: THREE.NeutralToneMapping, toneMappingExposure: 0.45 }}
         >
-        {/* <Suspense fallback={<Loader />}> */}
-
-            {/* Luces */}
-            <ambientLight intensity={0.5} color={0xf62456} />
+        {/* Luces */}
+        <ambientLight intensity={0.5} color={0xf62456} />
             <spotLight
                 position={[0, 10, 5]}
                 angle={Math.PI / 3}
@@ -58,7 +54,6 @@ export default function Scene() {
                 maxPolarAngle={1.5}
                 target={[0, 1, 0]}
             />
-        {/* </Suspense> */}
         </Canvas>
     )
 }

@@ -14,12 +14,16 @@ const Produccion = lazy(() => import('./pages/Produccion'))
 const Clases = lazy(() => import('./pages/Clases'))
 const Contacto = lazy(() => import('./pages/Contacto'))
 
-function Scroll3DController({ onRouteChange }) {
+interface Scroll3DControllerProps {
+  onRouteChange: (path: string) => void
+}
+
+function Scroll3DController({ onRouteChange }: Scroll3DControllerProps) {
   const location = useLocation()
 
   useEffect(() => {
     onRouteChange(location.pathname)
-  }, [location.pathname])
+  }, [location.pathname, onRouteChange])
 
   return null
 }
@@ -38,7 +42,7 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
   
-  const handleRouteChange = (path) => {
+  const handleRouteChange = (_path: string) => {
     // console.log("Ruta cambiada a:", path)
   }
 
