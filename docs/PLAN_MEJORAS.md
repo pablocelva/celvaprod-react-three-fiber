@@ -57,7 +57,7 @@
 | Tarea | Descripción | Estado |
 |---|---|---|
 | HDRI comprimido | **Fallback adaptativo implementado**: 4K por defecto, 2K si no carga en 4s, 1K/2K directo en conexiones lentas (`saveData`/2G). Lógica en `AdaptiveEnvironment.tsx`. Detalle en `docs/HDRI_COMPRESSION.md`. | ✅ Listo |
-| Modelo GLB comprimido | Cambiar ruta en `MicrofonoModel.tsx` de `scene.gltf` a `scene_compressed.glb` (ya existe). ⚠️ Requiere KTX2Loader + meshopt (drei no wirea KTX2 por defecto). Detalle en `docs/GLB_KTX2.md`. Decisión actual: seguir con `scene.gltf`. | ⬜ Pendiente (pausado) |
+| Modelo GLB comprimido | Cambio a `scene_compressed.glb` **probado → falla**: `setKTX2Loader must be called before loading KTX2 textures`. Requiere KTX2Loader (Propuesta B) o GLB sin KTX2 (Propuesta C). Error real y propuestas en `docs/GLB_KTX2.md`. Modelo actual funcionando (`scene.gltf`). | ⬜ Pendiente (pausado) |
 | Bundle analysis | Agregar `vite-plugin-visualizer` para auditar el bundle. | ⬜ Pendiente |
 
 ### Experiencia 3D
@@ -83,7 +83,7 @@
 |---|---|---|
 | SEO Pasos 1-4 | `lang="es"`, description, theme-color, favicon único; tags OG/Twitter + `og-preview.png` (1200×630, screenshot real); canonical + `robots.txt` + `sitemap.xml` (6 rutas); JSON-LD (`WebSite` + `Organization` con `sameAs` de 5 perfiles oficiales). Dominio sin `www` confirmado (redirección OK). | ✅ Listo |
 | Logo de marca | Specs y plan en `docs/LOGO_PLAN.md` (pendiente: no hay logo aún). | ⬜ Pendiente |
-| SEO Paso 5 | `manifest.json` + prefetch de rutas principales. | ⬜ Pendiente |
+| SEO Paso 5 | `manifest.json` (PWA: name, theme, start_url) + prefetch de rutas principales (Servicios y Contacto) tras la carga de la escena. | ✅ Listo |
 
 ### Accesibilidad
 
@@ -113,8 +113,8 @@
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-4, HDRI adaptativo | ✅ Listo |
-| **Ahora** | SEO Paso 5, logo (`docs/LOGO_PLAN.md`) | ⬜ Pendiente |
+| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-5, HDRI adaptativo | ✅ Listo |
+| **Ahora** | Logo (`docs/LOGO_PLAN.md`) | ⬜ Pendiente |
 | **Siguiente** | ESLint stricter (`exhaustive-deps`, `import/order`), overlay de transición, ARIA labels | ⬜ Pendiente |
 | **Después** | Modelo GLB comprimido (requiere KTX2 loader, pausado), scripts → TS (opcional), sincronización cámara+contenido, cambio de ambiente por sección, pruebas, husky, bundle analysis | ⬜ Pendiente |
 

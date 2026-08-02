@@ -24,6 +24,7 @@ Contar con un logo de marca (SVG + PNG) para usarlo en: favicon, Apple touch ico
 |---|---|---|---|
 | **Fuente de verdad** (web, favicon) | SVG vectorial, fondo transparente | scalable | `public/logo.svg` |
 | **Logo para JSON-LD** | PNG con fondo transparente | **512×512 mínimo**, 1024×1024 recomendado | `Organization.logo` en `index.html` |
+| **Iconos PWA (manifest)** | PNG | 192×192 + 512×512 | `public/icons/icon-192.png` + `icon-512.png`, campo `icons` en `public/manifest.json` |
 | **Apple touch icon** | PNG | 180×180 | `public/apple-touch-icon.png` + `<link rel="apple-touch-icon">` |
 | **Social / preview** | PNG | 1200×630 | `public/og-preview.png` (hoy es screenshot del sitio) |
 | Favicon actual | SVG inline (emoji 🌿) | — | `index.html` `<link rel="icon">` |
@@ -40,8 +41,9 @@ Contar con un logo de marca (SVG + PNG) para usarlo en: favicon, Apple touch ico
 2. Reemplazar el favicon emoji 🌿 en `index.html` por el SVG real.
 3. Agregar `public/apple-touch-icon.png` (180×180) y su `<link rel="apple-touch-icon">`.
 4. Agregar `Organization.logo` al JSON-LD (solo cuando exista el PNG 1024).
-5. Opcional: reemplazar `og-preview.png` (screenshot) por versión con logo + texto.
-6. Validar en la Rich Results Test de Google (https://search.google.com/test/rich-results).
+5. Agregar íconos PWA (`public/icons/icon-192.png` y `icon-512.png`) y el campo `icons` en `public/manifest.json`.
+6. Opcional: reemplazar `og-preview.png` (screenshot) por versión con logo + texto.
+7. Validar en la Rich Results Test de Google (https://search.google.com/test/rich-results).
 
 ## Nota de branding
 
@@ -56,4 +58,5 @@ pero conviene decidir el naming oficial antes de difundir el logo.
 - [ ] Favicon SVG real (sin emoji)
 - [ ] `apple-touch-icon.png` (180×180) enlazado
 - [ ] `Organization.logo` en JSON-LD
+- [ ] Íconos PWA 192/512 + campo `icons` en `manifest.json`
 - [ ] Rich Results Test sin errores de logo

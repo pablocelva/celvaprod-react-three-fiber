@@ -5,59 +5,65 @@
 El proyecto usa el modelo sin comprimir:
 
 - `public/microfono/scene.gltf` (36 KB) + `scene.bin` (638 KB) + texturas jpeg/png (~7 MB en total)
-- Se carga con `useGLTF('/microfono/scene.gltf')` en `src/components/scene/MicrofonoModel.tsx`
+- Carga con `useGLTF('/microfono/scene.gltf')` en `src/components/scene/MicrofonoModel.tsx`
 
-También existe `public/microfono/scene_compressed.glb` (1.45 MB, autocontenido) que **no se usa**.
+Existe `public/microfono/scene_compressed.glb` (1.45 MB, autocontenido). **Al probarlo falla.**
 
-## Por qué no se usa el GLB comprimido
+## Error real del navegador (2026-08-01)
 
-`scene_compressed.glb` exige estas extensiones:
-
-- `KHR_mesh_quantization` (obligatoria)
-- `EXT_meshopt_compression` (obligatoria)
-- `KHR_texture_basisu` (obligatoria — texturas KTX2/Basis)
-
-El `useGLTF` de drei configura **DRACO y Meshopt**, pero **no KTX2**. Sin un `KTX2Loader` registrado, las texturas KTX2 no se decodifican y el modelo aparece sin texturas (históricamente se abandonó por este problema).
-
-## Decisión actual
-
-Seguir con `scene.gltf` (funciona correctamente). El cambio a comprimido se evaluará cuando haya verificación visual en navegador.
-
-## Cómo habilitar el GLB comprimido en el futuro
-
-### Opción A — Transcoder local + fallback (recomendada)
-
-1. Copiar `basis_transcoder.js` y `basis_transcoder.wasm` desde `node_modules/three/examples/jsm/libs/basis/` a `public/basis/`.
-2. Crear un loader propio:
-
-```ts
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader.js'
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js'
-
-const loader = new GLTFLoader()
-loader.setMeshoptDecoder(MeshoptDecoder)
-const ktx2 = new KTX2Loader()
-ktx2.setTranscoderPath('/basis/')
-ktx2.detectSupport(renderer) // renderer de R3F: useThree((s) => s.gl)
-loader.setKTX2Loader(ktx2)
+```
+Uncaught Error: Could not load /microfono/scene_compressed.glb:
+THREE.GLTFLoader: setKTX2Loader must be called before loading KTX2 textures
 ```
 
-3. Cargar `scene_compressed.glb` con **fallback** a `scene.gltf` si falla, para no romper la escena.
+Consecuencias al probarlo: el error rompe el `<CanvasImpl>` (lo captura el `ErrorBoundary` de la escena) y además se pierde el contexto WebGL.
 
-### Opción B — Convertir el GLB a formato sin KTX2
+## Análisis técnico confirmado
 
-Convertir `scene_compressed.glb` a un GLB con texturas jpeg/png embebidas:
+El `scene_compressed.glb` declara estas extensiones (verificadas en el binario):
 
-```bash
-npm install -g @gltf-transform/cli
-gltf-transform copy scene_compressed.glb scene_fixed.glb
-```
+| Extensión | Requerida | Estado en `useGLTF` de drei |
+|---|---|---|
+| `KHR_mesh_quantization` | Sí | Soportada por three.js core ✅ |
+| `KHR_texture_basisu` (KTX2/Basis) | Sí | **NO registrada** ❌ |
+| `EXT_meshopt_compression` | Sí | drei la carga ✅ |
+| `KHR_draco_mesh_compression` | No presente | — |
 
-O usar: <https://products.aspose.app/3d/conversion/glb-to-gltf>
+**Causa raíz:** drei registra Draco y Meshopt en `useGLTF`, pero **no llama a `setKTX2Loader`**. Cuando una extensión está en `extensionsRequired` y no hay loader registrado, GLTFLoader lanza el error de arriba.
+
+## Propuestas (con argumentos)
+
+### Propuesta A — Volver a `scene.gltf` (cero riesgo)
+- **A favor**: funciona perfecto, nada que tocar, cero chance de romper la escena (el activo principal del sitio).
+- **En contra**: el modelo pesa ~7MB vs 1.45MB del comprimido (~78% más). El gran bottleneck ya se resolvió con el HDRI adaptativo; el modelo suma ~5MB al "first load".
+- **Cuándo**: si el sitio ya carga bien y se prioriza estabilidad sobre optimización.
+
+### Propuesta B — Registrar `KTX2Loader` + meshopt (solución definitiva)
+- **Cómo**:
+  1. Copiar `basis_transcoder.js` + `basis_transcoder.wasm` desde `node_modules/three/examples/jsm/libs/basis/` → `public/basis/`.
+  2. Crear un loader propio con `GLTFLoader` + `KTX2Loader` (`setTranscoderPath('/basis/')`) + `MeshoptDecoder`, registrando las extensiones.
+  3. Cargar `scene_compressed.glb` con **fallback** a `scene.gltf` si falla.
+- **A favor**: 78% menos peso (7MB → 1.45MB), un solo request, autocontenido. Es el camino oficial de three.js.
+- **En contra**: ~30-60 min de implementación + testing. Riesgo medio: verificar que el `.wasm` se sirva bien desde Netlify (Content-Type, tamaño) y que las texturas KTX2/Basis se vean igual de bien (Basis puede variar levemente el look). Requiere commitear el transcoder a `public/`.
+
+### Propuesta C — GLB optimizado SIN KTX2 (recomendada)
+- **Cómo**: convertir `scene.gltf` a un GLB con `meshopt` + `quantization` pero texturas **jpg/png embebidas** (sin KTX2). Herramienta: `@gltf-transform/cli` (o conversor online).
+- **A favor**: carga con el **`useGLTF` actual** — un simple cambio de ruta, sin loader custom ni transcoder. Riesgo bajo.
+- **En contra**: peso intermedio (~2.5-4MB estimado): texturas jpg pesan más que KTX2, pero bin + malla se comprimen con meshopt/quantization. Validar visualmente (re-codificar texturas puede variar el color).
+- **Cuándo**: mejor relación riesgo/beneficio.
+
+### Propuesta D — Optimizar el `scene.gltf` sin cambiar formato
+- **Cómo**: comprimir las texturas más pesadas (JPEG, calidad/resolución 1K-2K).
+- **A favor**: simple, sin tocar loaders ni estructura.
+- **En contra**: ahorro parcial (las texturas suelen ser el grueso; el bin 638KB queda igual).
+
+## Recomendación
+
+1. **Propuesta C** para obtener la mayor parte del ahorro con el cambio más simple y seguro.
+2. Si se quiere exprimir hasta el 1.45MB → **Propuesta B** (loader KTX2 completo) con fallback.
 
 ## Archivos de referencia
 
-- `src/components/scene/MicrofonoModel.tsx` — carga del modelo
-- `src/components/scene/SceneContent.tsx` — preload del modelo
-- `public/microfono/` — assets del modelo
+- `src/components/scene/MicrofonoModel.tsx` — carga del modelo (`useGLTF`)
+- `src/components/scene/SceneContent.tsx` — preload del modelo (`useGLTF.preload`)
+- `public/microfono/` — `scene.gltf` (funcional), `scene.bin`, texturas, `scene_compressed.glb` (1.45MB, requiere KTX2)

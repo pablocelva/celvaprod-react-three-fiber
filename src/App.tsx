@@ -36,6 +36,15 @@ function App() {
 
   useWebVitals()
 
+  useEffect(() => {
+    if (!isSceneReady) return
+    const timer = window.setTimeout(() => {
+      void import('./pages/Servicios/Servicios')
+      void import('./pages/Contacto/Contacto')
+    }, 1000)
+    return () => window.clearTimeout(timer)
+  }, [isSceneReady])
+
   const handleRouteChange = (_path: string) => {}
 
   return (

@@ -134,7 +134,7 @@ Dist chunks:       max-age=31536000 (1 año, immutable)
 - Model ready detection
 - Tipado estricto en toda la app
 - Hook `useFadeIn` para animaciones consistentes
-- SEO: meta/OG/Twitter, canonical, `robots.txt`, `sitemap.xml`, JSON-LD (`WebSite` + `Organization`)
+- SEO: meta/OG/Twitter, canonical, `robots.txt`, `sitemap.xml`, JSON-LD (`WebSite` + `Organization`), manifest PWA + prefetch de rutas
 - HDRI adaptativo: 4K por defecto, fallback a 2K (timeout) o 1K/2K directo en conexiones lentas
 
 ## 🛠️ Tech Stack

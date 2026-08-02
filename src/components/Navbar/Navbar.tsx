@@ -10,7 +10,7 @@ export default function Navbar() {
     return (
         <nav className={styles.navbar}>
             <div className={styles.navLogos}>
-                <Link className={styles.logoLink} to="/">
+                <Link className={styles.logoLink} to="/" onClick={handleLinkClick}>
                 CELVA<strong>PROD</strong>
                 </Link>
                 <button className={styles.hamburger} aria-label="Abrir menú" onClick={() => setOpen(!open)}>

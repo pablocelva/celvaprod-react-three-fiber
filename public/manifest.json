@@ -1,0 +1,11 @@
+{
+  "name": "CELVAPROD | Composición y Producción Musical",
+  "short_name": "CELVAPROD",
+  "description": "Estudio independiente de composición y producción musical. Composición, producción, mezcla, masterización y clases de música.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#121212"
+}
