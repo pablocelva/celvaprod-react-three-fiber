@@ -22,17 +22,17 @@ pnpm run lint
 
 ## ✨ Features
 
-- ✅ Escena 3D interactiva con React Three Fiber + Three.js
-- ✅ Navegación por rutas con React Router (SPA, sin scroll vertical)
-- ✅ Transiciones de cámara 3D por ruta (lerp)
-- ✅ **TypeScript al 100%** — 28 archivos `.tsx`/`.ts`, modo estricto
-- ✅ Datos de servicios centralizados y tipados (`src/data/services.ts`)
-- ✅ Tipos de dominio en `src/types/` (service, navigation, contact, scene)
-- ✅ Hook `useFadeIn` reutilizable para animación de entrada
-- ✅ Variables CSS semánticas + tokens de diseño
-- ✅ Code splitting por ruta (chunks separados)
-- ✅ Error handling robusto (ErrorBoundary en la escena 3D)
-- ✅ Web Vitals monitoring
+- Escena 3D interactiva con React Three Fiber + Three.js
+- Navegación por rutas con React Router (SPA, sin scroll vertical)
+- Transiciones de cámara 3D por ruta (lerp)
+- **TypeScript al 100%** — 28 archivos `.tsx`/`.ts`, modo estricto
+- Datos de servicios centralizados y tipados (`src/data/services.ts`)
+- Tipos de dominio en `src/types/` (service, navigation, contact, scene)
+- Hook `useFadeIn` reutilizable para animación de entrada
+- Variables CSS semánticas + tokens de diseño
+- Code splitting por ruta (chunks separados)
+- Error handling robusto (ErrorBoundary en la escena 3D + PageErrorBoundary por ruta)
+- Web Vitals monitoring
 
 ## 🏗️ Architecture
 
@@ -90,6 +90,7 @@ Toda la documentación vive en `docs/`:
 | `docs/TROUBLESHOOTING.md` | FAQ y soluciones a problemas comunes |
 | `docs/HDRI_COMPRESSION.md` | Guía para comprimir el HDRI de ambiente (28.6MB → 2K) |
 | `docs/GLB_KTX2.md` | Estado y opciones del modelo 3D comprimido (KTX2/meshopt) |
+| `docs/LOGO_PLAN.md` | Specs y plan de implementación del logo de marca |
 
 ## 🔧 Scripts
 
@@ -133,6 +134,7 @@ Dist chunks:       max-age=31536000 (1 año, immutable)
 - Model ready detection
 - Tipado estricto en toda la app
 - Hook `useFadeIn` para animaciones consistentes
+- SEO: meta/OG/Twitter, canonical, `robots.txt`, `sitemap.xml`, JSON-LD (`WebSite` + `Organization`)
 
 ## 🛠️ Tech Stack
 
@@ -151,7 +153,7 @@ Privado - CELVAPROD
 
 ---
 
-**Status**: ✅ Production Ready  
+**Status**: Production Ready  
 **Package Manager**: pnpm  
 **Language**: TypeScript (100%)  
 **Last Updated**: Agosto 2026

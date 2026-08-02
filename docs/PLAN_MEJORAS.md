@@ -56,8 +56,8 @@
 
 | Tarea | Descripción | Estado |
 |---|---|---|
-| HDRI comprimido | Usar `compress-hdr.js` para reducir el HDRI de 28MB a ~7MB (2K). | ⬜ Pendiente |
-| Modelo GLB comprimido | Cambiar ruta en `Scene3D.tsx` de `scene.gltf` a `scene_compressed.glb` (ya existe). | ⬜ Pendiente |
+| HDRI comprimido | Reducir el HDRI de 28MB a ~7MB (2K). Opciones y comandos en `docs/HDRI_COMPRESSION.md` (recomendado: descargar 2K de Poly Haven). | ⬜ Pendiente |
+| Modelo GLB comprimido | Cambiar ruta en `MicrofonoModel.tsx` de `scene.gltf` a `scene_compressed.glb` (ya existe). ⚠️ Requiere KTX2Loader + meshopt (drei no wirea KTX2 por defecto). Detalle en `docs/GLB_KTX2.md`. Decisión actual: seguir con `scene.gltf`. | ⬜ Pendiente (pausado) |
 | Bundle analysis | Agregar `vite-plugin-visualizer` para auditar el bundle. | ⬜ Pendiente |
 
 ### Experiencia 3D
@@ -75,6 +75,15 @@
 | ESLint stricter | Configurado `typescript-eslint` (recomendado). TS bajado a 5.9 (compat). Lint **verde**: 0 errores. Falta: `react-hooks/exhaustive-deps`, `import/order`. | 🔶 Parcial |
 | Husky + lint-staged | Pre-commit hooks que corren ESLint automáticamente. | ⬜ Pendiente |
 | Pruebas mínimas | Vitest + React Testing Library para componentes clave. | ⬜ Pendiente |
+| Scripts `scripts/*.js` → TS | Migrar los 3 scripts funcionales a `.ts` con `tsx` + `@types/node` + type-check en `tsconfig.node.json`. **Opcional/diferido**: beneficio cosmético (badge de lenguaje en GitHub) con riesgo sobre assets reales (GLB/modelo). `src/` ya es 100% TS. | 🔶 Opcional — diferido |
+
+### SEO
+
+| Tarea | Descripción | Estado |
+|---|---|---|
+| SEO Pasos 1-4 | `lang="es"`, description, theme-color, favicon único; tags OG/Twitter + `og-preview.png` (1200×630, screenshot real); canonical + `robots.txt` + `sitemap.xml` (6 rutas); JSON-LD (`WebSite` + `Organization` con `sameAs` de 5 perfiles oficiales). Dominio sin `www` confirmado (redirección OK). | ✅ Listo |
+| Logo de marca | Specs y plan en `docs/LOGO_PLAN.md` (pendiente: no hay logo aún). | ⬜ Pendiente |
+| SEO Paso 5 | `manifest.json` + prefetch de rutas principales. | ⬜ Pendiente |
 
 ### Accesibilidad
 
@@ -104,10 +113,10 @@
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5) | ✅ Listo |
-| **Ahora** | HDRI/GLB comprimido, ESLint stricter (`exhaustive-deps`, `import/order`) | ⬜ Pendiente |
-| **Siguiente** | Overlay de transición, ARIA labels | ⬜ Pendiente |
-| **Después** | Sincronización cámara+contenido, cambio de ambiente por sección, pruebas, husky, bundle analysis | ⬜ Pendiente |
+| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-4 | ✅ Listo |
+| **Ahora** | HDRI 2K (`docs/HDRI_COMPRESSION.md`), SEO Paso 5, logo (`docs/LOGO_PLAN.md`) | ⬜ Pendiente |
+| **Siguiente** | ESLint stricter (`exhaustive-deps`, `import/order`), overlay de transición, ARIA labels | ⬜ Pendiente |
+| **Después** | Modelo GLB comprimido (requiere KTX2 loader, pausado), scripts → TS (opcional), sincronización cámara+contenido, cambio de ambiente por sección, pruebas, husky, bundle analysis | ⬜ Pendiente |
 
 ---
 
