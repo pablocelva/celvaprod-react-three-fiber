@@ -56,7 +56,7 @@
 
 | Tarea | Descripción | Estado |
 |---|---|---|
-| HDRI comprimido | Reducir el HDRI de 28MB a ~7MB (2K). Opciones y comandos en `docs/HDRI_COMPRESSION.md` (recomendado: descargar 2K de Poly Haven). | ⬜ Pendiente |
+| HDRI comprimido | **Fallback adaptativo implementado**: 4K por defecto, 2K si no carga en 4s, 1K/2K directo en conexiones lentas (`saveData`/2G). Lógica en `AdaptiveEnvironment.tsx`. Detalle en `docs/HDRI_COMPRESSION.md`. | ✅ Listo |
 | Modelo GLB comprimido | Cambiar ruta en `MicrofonoModel.tsx` de `scene.gltf` a `scene_compressed.glb` (ya existe). ⚠️ Requiere KTX2Loader + meshopt (drei no wirea KTX2 por defecto). Detalle en `docs/GLB_KTX2.md`. Decisión actual: seguir con `scene.gltf`. | ⬜ Pendiente (pausado) |
 | Bundle analysis | Agregar `vite-plugin-visualizer` para auditar el bundle. | ⬜ Pendiente |
 
@@ -113,8 +113,8 @@
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-4 | ✅ Listo |
-| **Ahora** | HDRI 2K (`docs/HDRI_COMPRESSION.md`), SEO Paso 5, logo (`docs/LOGO_PLAN.md`) | ⬜ Pendiente |
+| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-4, HDRI adaptativo | ✅ Listo |
+| **Ahora** | SEO Paso 5, logo (`docs/LOGO_PLAN.md`) | ⬜ Pendiente |
 | **Siguiente** | ESLint stricter (`exhaustive-deps`, `import/order`), overlay de transición, ARIA labels | ⬜ Pendiente |
 | **Después** | Modelo GLB comprimido (requiere KTX2 loader, pausado), scripts → TS (opcional), sincronización cámara+contenido, cambio de ambiente por sección, pruebas, husky, bundle analysis | ⬜ Pendiente |
 

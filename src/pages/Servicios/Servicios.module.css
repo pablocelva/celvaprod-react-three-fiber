@@ -78,9 +78,8 @@
 
 @media (max-width: 768px) {
   .gridServicios {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: stretch;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
   }
@@ -96,7 +95,9 @@
   .gridServicios {
     width: auto;
     margin: 0 2em;
-    padding-left: 320px;
+    padding: 1.5em 0;
+    justify-content: flex-start;
+    align-items: stretch;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
   }

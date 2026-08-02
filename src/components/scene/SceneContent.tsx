@@ -1,22 +1,12 @@
-import { Environment, OrbitControls, useGLTF } from '@react-three/drei'
+import { OrbitControls, useGLTF } from '@react-three/drei'
 import { Suspense, useEffect, useRef } from 'react'
 import type { Group } from 'three'
+import AdaptiveEnvironment, { SceneLoadedSignal } from './AdaptiveEnvironment'
 import CameraController from './CameraController'
 import FallbackModel from './FallbackModel'
 import MicrofonoModel from './MicrofonoModel'
-import { useLoading } from '../../contexts/loadingContext'
 
 const MODEL_URL = '/microfono/scene.gltf'
-
-function SceneLoadedSignal() {
-  const { setSceneReady } = useLoading()
-
-  useEffect(() => {
-    setSceneReady()
-  }, [setSceneReady])
-
-  return null
-}
 
 export default function SceneContent() {
   const modelRef = useRef<Group>(null)
@@ -39,10 +29,7 @@ export default function SceneContent() {
         <SceneLoadedSignal />
       </Suspense>
 
-      <Suspense fallback={null}>
-        <Environment files="/enviorments/river_walk_1_4k.hdr" background />
-        <SceneLoadedSignal />
-      </Suspense>
+      <AdaptiveEnvironment />
 
       <CameraController modelRef={modelRef} />
 
