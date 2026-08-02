@@ -1,0 +1,67 @@
+.container {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+:global(.page-transition.show) .container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card {
+  width: 90%;
+  max-width: 480px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.hero {
+  width: 400px;
+  margin-left: 22%;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.cards {
+  opacity: 1;
+  transform: none;
+}
+
+.contacto {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    width: 85%;
+    margin: auto;
+    padding: 1em;
+  }
+
+  .card {
+    width: 85%;
+    margin: auto;
+    padding: 1em;
+  }
+
+  .contacto {
+    width: 85%;
+    margin: auto;
+    padding: 1em;
+  }
+}

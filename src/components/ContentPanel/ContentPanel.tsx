@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import styles from './ContentPanel.module.css'
 
 type ContentPanelVariant = 'card' | 'hero' | 'cards' | 'contacto'
 
@@ -9,7 +10,7 @@ interface ContentPanelProps {
 
 export default function ContentPanel({ variant, children }: ContentPanelProps) {
   return (
-    <main className={`form-container form-container--${variant}`}>
+    <main className={`${styles.container} ${styles[variant]}`}>
       {children}
     </main>
   )

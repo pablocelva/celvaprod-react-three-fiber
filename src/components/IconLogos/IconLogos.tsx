@@ -5,10 +5,11 @@ import {
     FaSoundcloud,
     FaItchIo
 } from 'react-icons/fa'
+import styles from './IconLogos.module.css'
 
 export default function IconLogos() {
     return (
-        <div className="logos">
+        <div className={styles.logos}>
             <a href="https://tidal.com/playlist/3e4d6291-c495-4505-a37a-f68530fa30c2" target="_blank" rel="noreferrer">
                 <IconBrandTidal />
             </a>

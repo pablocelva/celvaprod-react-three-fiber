@@ -4,13 +4,23 @@ import type { Group } from 'three'
 import CameraController from './CameraController'
 import FallbackModel from './FallbackModel'
 import MicrofonoModel from './MicrofonoModel'
+import { useLoading } from '../../contexts/loadingContext'
 
 const MODEL_URL = '/microfono/scene.gltf'
+
+function SceneLoadedSignal() {
+  const { setSceneReady } = useLoading()
+
+  useEffect(() => {
+    setSceneReady()
+  }, [setSceneReady])
+
+  return null
+}
 
 export default function SceneContent() {
   const modelRef = useRef<Group>(null)
 
-  // Preload modelo en contexto seguro
   useEffect(() => {
     try {
       useGLTF.preload(MODEL_URL)
@@ -26,10 +36,12 @@ export default function SceneContent() {
 
       <Suspense fallback={<FallbackModel modelRef={modelRef} />}>
         <MicrofonoModel modelRef={modelRef} />
+        <SceneLoadedSignal />
       </Suspense>
 
       <Suspense fallback={null}>
         <Environment files="/enviorments/river_walk_1_4k.hdr" background />
+        <SceneLoadedSignal />
       </Suspense>
 
       <CameraController modelRef={modelRef} />

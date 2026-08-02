@@ -16,11 +16,11 @@
 
 | Sub-tarea | Descripción | Estado |
 |---|---|---|
-| **1.1 CSS Modules** | Migrar a `.module.css` por componente. `App.css` queda solo para reset + variables. | ⬜ Pendiente |
+| **1.1 CSS Modules** | **CSS 100% modularizado por componente/página**: `Navbar.module.css`, `ContentPanel.module.css`, `ServiceDetail.module.css`, `ContactForm.module.css`, `IconLogos.module.css`, `Footer.module.css`, `Home.module.css`, `Servicios.module.css`. `App.css` quedó solo con reset + variables. CSS compartido (`.cta1`) duplicado en los módulos que lo usan. | ✅ Listo |
 | **1.2 Variables CSS semánticas** | Renombradas a `--color-primary`, `--color-accent`, `--color-green`, `--color-green-soft`. Viejas quedan como alias deprecados. | ✅ Listo |
-| **1.3 Selectores de clase en lugar de etiqueta** | Reemplazar `nav { }`, `ul { }`, `button { }` por clases específicas (`.navbar`, `.btn`, etc.). | ⬜ Pendiente |
+| **1.3 Selectores de clase en lugar de etiqueta** | Navbar: `nav`/`nav a`/`nav a:hover` → `.navbar`/`.navbar a`/`.navbar a:hover`. Quedan selectores de etiqueta solo en el reset global (estándar). | ✅ Listo |
 | **1.4 Hook `useFadeIn`** | Extraída la lógica de fade-in a un hook reutilizable. Aplicado en Home, Servicios, detalle de servicios y ContactForm. | ✅ Listo |
-| **1.5 Animaciones centralizadas** | Mover `@keyframes` y transiciones a `animations.css` o snippets compartidos. | ⬜ Pendiente |
+| **1.5 Animaciones centralizadas** | El fade vive en `ContentPanel.module.css` + stagger en `Servicios.module.css`, disparado por las clases globales `page-transition`/`show` (sin estilos propios, solo marcador de estado). | ✅ Listo |
 | **1.6 Sistema de diseño mínimo** | Tokens de espaciado (`--space-*`), z-index (`--z-*`), radius, transition. | 🔶 Parcial (faltan breakpoints/tipografía) |
 
 ### Pilar 2 — TypeScript (tipado fuerte)
@@ -45,8 +45,8 @@
 | **3.1 Layout compartido con `<Outlet />`** | `PageLayout` en `src/layouts/` con Navbar + fade-in por ruta + `<Outlet />`. Navbar eliminado de las 6 páginas. `useFadeIn` ahora vive solo en el layout. | ✅ Listo |
 | **3.2 Layout compartido para el contenido** | `ContentPanel` en `src/components/` con `variant: 'card' \| 'hero' \| 'cards' \| 'contacto'`. Reemplaza los `<div className="form-container--*">` duplicados en las 6 páginas. | ✅ Listo |
 | **3.3 Separación de Scene3D** | `src/components/scene/`: `Scene3D` (Canvas), `SceneContent` (luces + modelo + env), `CameraController` (lógica por ruta), `MicrofonoModel`, `FallbackModel`. Posiciones de cámara centralizadas en `src/data/sceneTargets.ts`. Fix: rotación del modelo duplicada (giraba 2x) consolidada. Código muerto (`onModelReady`/`setModelReady`) eliminado. | ✅ Listo |
-| **3.4 Estado de carga global** | Unificar `LoadingScreen` y estado de carga en un solo lugar (Context o Zustand). | ⬜ Pendiente |
-| **3.5 Error boundaries por página** | Agregar `PageErrorBoundary` para cada ruta. | ⬜ Pendiente |
+| **3.4 Estado de carga global** | `LoadingContext` + `LoadingProvider` en `src/contexts/`. `LoadingScreen` se muestra hasta que la escena reporta listo (modelo + environment vía `SceneLoadedSignal` en SceneContent). Eliminado el timer arbitrario de 2s en App; safety timeout de 12s. | ✅ Listo |
+| **3.5 Error boundaries por página** | `PageErrorBoundary` en `src/components/PageErrorBoundary/` (clase + CSS module). Envuelve cada una de las 6 rutas en `App.tsx`; también captura fallos de carga de chunks lazy. | ✅ Listo |
 
 ---
 
@@ -104,10 +104,10 @@
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **Ahora** | Layout compartido `<Outlet />`, ContentPanel unificado | ⬜ Pendiente |
-| **Siguiente** | CSS Modules, selectores de clase, separación Scene3D | ⬜ Pendiente |
-| **Después** | Estado carga global, HDRI/GLB comprimido, ESLint stricter, ARIA labels | ⬜ Pendiente |
-| **Nice to have** | Sincronización cámara+contenido, pruebas, husky, bundle analysis | ⬜ Pendiente |
+| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5) | ✅ Listo |
+| **Ahora** | HDRI/GLB comprimido, ESLint stricter (`exhaustive-deps`, `import/order`) | ⬜ Pendiente |
+| **Siguiente** | Overlay de transición, ARIA labels | ⬜ Pendiente |
+| **Después** | Sincronización cámara+contenido, cambio de ambiente por sección, pruebas, husky, bundle analysis | ⬜ Pendiente |
 
 ---
 

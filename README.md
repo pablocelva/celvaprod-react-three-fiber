@@ -39,36 +39,43 @@ pnpm run lint
 ```
 src/
 ├── components/
-│   ├── scene/
+│   ├── scene/                    # Subsistema 3D (Canvas, luces, cámara, modelo)
 │   │   ├── Scene3D.tsx           # Canvas 3D (config gl, camera, dpr)
 │   │   ├── SceneContent.tsx      # Luces + modelo + environment + controllers
 │   │   ├── CameraController.tsx  # Cámara/modelo por ruta (lerp + rotación + exposure)
 │   │   ├── MicrofonoModel.tsx    # Carga del modelo GLTF
 │   │   ├── FallbackModel.tsx     # Fallback (cubo) mientras carga el modelo
 │   │   └── types.ts              # ModelRef compartido
-│   ├── ContentPanel.tsx         # Contenedor de contenido (variants: card/hero/cards/contacto)
-│   ├── ServiceDetail.tsx        # Panel de detalle de servicio (reutilizable)
-│   ├── ContactForm.tsx          # Formulario de contacto (Formspree)
-│   ├── Navbar.tsx               # Navegación
-│   ├── IconLogos.tsx            # Iconos sociales
-│   ├── Footer.tsx               # Pie de página
-│   ├── LoadingScreen.tsx        # Pantalla de carga
-│   ├── ErrorBoundary.tsx        # Manejo de errores de la escena
-│   └── *.css                    # Estilos (global + por componente)
+│   ├── Navbar/                   # Navbar.tsx + Navbar.module.css
+│   ├── ContentPanel/             # Contenedor de contenido (card/hero/cards/contacto)
+│   ├── ServiceDetail/            # Panel de detalle de servicio (reutilizable)
+│   ├── ContactForm/              # Formulario de contacto (Formspree)
+│   ├── IconLogos/                # Iconos sociales
+│   ├── Footer/                   # Pie de página
+│   ├── LoadingScreen/            # Pantalla de carga
+│   ├── ErrorBoundary/            # Manejo de errores de la escena 3D
+│   └── PageErrorBoundary/        # Error boundary por ruta (cada página)
 ├── data/
 │   ├── services.ts              # Datos de servicios tipados (composición, producción, clases)
 │   └── sceneTargets.ts          # Posiciones de cámara/modelo por ruta (desktop + mobile)
+├── contexts/
+│   ├── loadingContext.ts       # Context + hook useLoading (estado de carga unificado)
+│   └── LoadingProvider.tsx     # Provider con safety timeout
 ├── hooks/
 │   ├── useFadeIn.ts             # Animación de entrada (fade + slide) — usada por el layout
-│   ├── useGLTFWithReady.ts      # Detección de modelos listos
-│   ├── useOptimizedGLTF.ts      # Carga y caché de modelos 3D
 │   └── useWebVitals.ts          # Monitoreo de performance
 ├── layouts/
 │   └── PageLayout.tsx           # Layout compartido: Navbar + fade-in + <Outlet />
-├── pages/                       # Rutas (Home, Servicios, detalle, Contacto)
+├── pages/
+│   ├── Home/                     # Home.tsx + Home.module.css
+│   ├── Servicios/                # Servicios.tsx + Servicios.module.css
+│   ├── Composicion/              # Detalle composición
+│   ├── Produccion/               # Detalle producción
+│   ├── Clases/                   # Detalle clases
+│   └── Contacto/                 # Contacto (usa ContactForm)
 ├── types/                       # Tipos de dominio (service, navigation, contact, scene)
 ├── App.tsx                      # App principal (routing + scene ready)
-├── App.css                      # Estilos globales (variables, reset, layout)
+├── App.css                      # Solo reset + variables/tokens (sin estilos de componente)
 └── main.tsx                     # Entry point
 ```
 

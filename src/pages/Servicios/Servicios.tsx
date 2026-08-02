@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import ContentPanel from '../components/ContentPanel'
+import ContentPanel from '../../components/ContentPanel/ContentPanel'
+import styles from './Servicios.module.css'
 
 interface ServiceCard {
   title: string
@@ -33,14 +34,14 @@ export default function Servicios() {
     return (
         <ContentPanel variant="cards">
             <h2>Servicios</h2>
-            <div className="grid-servicios">
+            <div className={styles.gridServicios}>
                 {cards.map((card) => (
-                    <div key={card.title} className="card-servicios">
-                        <div className="card-servicios__accent" style={{ backgroundColor: card.color }} />
+                    <div key={card.title} className={styles.cardServicios}>
+                        <div className={styles.cardAccent} style={{ backgroundColor: card.color }} />
                         <h3>{card.title}</h3>
                         <p>{card.desc}</p>
                         <Link to={card.link}>
-                            <button className="cta1" style={{ borderColor: card.color, color: card.color }}>Más info</button>
+                            <button className={styles.cta1} style={{ borderColor: card.color, color: card.color }}>Más info</button>
                         </Link>
                     </div>
                 ))}

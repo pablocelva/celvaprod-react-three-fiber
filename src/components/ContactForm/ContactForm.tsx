@@ -1,10 +1,11 @@
-import ContentPanel from './ContentPanel'
+import ContentPanel from '../ContentPanel/ContentPanel'
+import styles from './ContactForm.module.css'
 
 export default function ContactForm() {
     return (
         <ContentPanel variant="contacto">
             <form 
-                className="contact-form"
+                className={styles.form}
                 action="https://formspree.io/f/xjkakang"
                 method="POST"
             >
