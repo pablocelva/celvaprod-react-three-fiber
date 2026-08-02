@@ -4,14 +4,22 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #121212 0%, #1a1124 35%, #64336e 70%, #0d0d0d 100%);
-  background-size: 300% 300%;
-  animation: gradient-shift 12s ease infinite;
   transition: opacity 0.6s ease;
   z-index: 9999;
+}
+
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: -200%;
+  z-index: 0;
+  background: linear-gradient(135deg, #121212 0%, #1a1124 35%, #64336e 70%, #0d0d0d 100%);
+  will-change: transform;
+  animation: gradient-shift 16s ease-in-out infinite;
 }
 
 .loading-screen--fade-out {
@@ -19,6 +27,8 @@
 }
 
 .loading-container {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,9 +85,10 @@
 }
 
 @keyframes gradient-shift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0%, 100% { transform: translate(0%, 0%); }
+  25%      { transform: translate(6%, -7%); }
+  50%      { transform: translate(10%, 0%); }
+  75%      { transform: translate(6%, 7%); }
 }
 
 @keyframes eq-bounce {
@@ -91,7 +102,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .loading-screen {
+  .loading-screen::before {
     animation: none;
   }
 
