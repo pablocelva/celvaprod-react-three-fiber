@@ -31,28 +31,37 @@ Los tests deben ser rápidos, deterministas y sin depender de red ni WebGL.
 ## Stack recomendado
 
 ```bash
-pnpm add -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
+# Instalado ✅
+pnpm add -D vitest jsdom
+
+# Pendiente (para tests de componentes, P2)
+pnpm add -D @testing-library/react @testing-library/jest-dom @testing-library/user-event
 ```
 
-- **Vitest** — nativo de Vite (misma config), sin bundler aparte, TS out-of-the-box.
-- **@testing-library/react + jest-dom + user-event** — testing centrado en comportamiento de usuario, no en implementación.
-- **jsdom** — DOM de prueba (sin WebGL: por eso los tests de 3D se excluyen).
+- **Vitest** — nativo de Vite (misma config), sin bundler aparte, TS out-of-the-box. ✅ v4.1.10
+- **@testing-library/react + jest-dom + user-event** — testing centrado en comportamiento de usuario, no en implementación. (P2)
+- **jsdom** — DOM de prueba (sin WebGL: por eso los tests de 3D se excluyen). ✅ v30.0.1
 - **Playwright** (solo si más adelante se quiere e2e) — smoke: carga, sin errores de consola, navegación, loading visible → fade.
 
-### Configuración (cuando se implemente)
+### Configuración (hecha ✅)
 
-1. Agregar al `vite.config.ts` (cambiar a `defineConfig` de `vitest/config`):
+1. `vitest.config.ts` (separado del `vite.config.ts` para no mezclar build y tests):
 
 ```ts
-test: {
-  environment: 'jsdom',
-  globals: true,
-  setupFiles: './src/test/setup.ts',
-}
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+  },
+})
 ```
 
-2. `src/test/setup.ts` → `import '@testing-library/jest-dom'` (y mocks globales si hacen falta).
-3. `package.json` → `"test": "vitest run"`, `"test:watch": "vitest"`.
+2. `package.json` → `"test": "vitest run"` y `"test:watch": "vitest"`. ✅
+3. Cuando se haga P2: `src/test/setup.ts` → `import '@testing-library/jest-dom'` y agregar
+   `setupFiles` a la config.
 4. Tests **colocated**: `src/**/*.test.ts(x)` junto al módulo.
 
 ## Estrategia por capas
@@ -116,7 +125,7 @@ Solo si el flujo lo pide, con **Playwright**:
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **P1** | Unit tests de `hdrFallback` (`getBaselineHDR`/`shouldProbe` + sonda) y tests de datos/rutas | ⬜ Pendiente |
+| **P1** | Datos de servicios ✅ y `sceneTargets` ✅ (9 tests); rutas (requiere extraer `ROUTES` de `App.tsx`); `hdrFallback` (diferido a pedido del usuario — probar primero lo simple) | En curso |
 | **P2** | Navbar, LoadingScreen, Servicios, ContactForm (RTL) | ⬜ Pendiente |
 | **P3** | Routing + PageErrorBoundary | ⬜ Pendiente |
 | **P4** | Playwright smoke (opcional) | ⬜ Pendiente |
