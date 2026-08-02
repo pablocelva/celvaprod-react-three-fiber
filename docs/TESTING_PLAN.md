@@ -134,7 +134,7 @@ Solo si el flujo lo pide, con **Playwright**:
 |---|---|---|
 | **P1** | Datos de servicios ✅, `sceneTargets` ✅ y rutas ✅ (13 tests; `ROUTES` extraído a `src/router/routes.ts` y `App.tsx` lo usa vía `.map`). `hdrFallback` diferido a pedido del usuario | ✅ Hecho |
 | **P2** | Navbar, LoadingScreen, Servicios, ContactForm (RTL) — 13 tests nuevos (total 26) | ✅ Hecho |
-| **P3** | Routing + PageErrorBoundary | ⬜ Pendiente |
+| **P3** | `src/router/routing.test.tsx` (las 6 rutas renderizan su página, con `PageErrorBoundary` + `Suspense` + `MemoryRouter`) y `PageErrorBoundary.test.tsx` (fallback con error, hijos sin error) — 8 tests nuevos (total 34) | ✅ Hecho |
 | **P4** | Playwright smoke (opcional) | ⬜ Pendiente |
 
 ## Archivos de referencia
