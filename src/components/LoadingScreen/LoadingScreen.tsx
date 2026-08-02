@@ -1,12 +1,22 @@
 import './LoadingScreen.css'
 
-export default function LoadingScreen() {
+interface LoadingScreenProps {
+  fading?: boolean
+}
+
+export default function LoadingScreen({ fading = false }: LoadingScreenProps) {
   return (
-    <div className="loading-screen">
-      <div className="loading-container">
-        <div className="loading-spinner" />
-        <div className="loading-text">
-          Loading Experience...
+    <div className={`loading-screen${fading ? ' loading-screen--fade-out' : ''}`}>
+      <div className="loading-container" role="status" aria-live="polite">
+        <div className="loading-eq" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="loading-wordmark">
+          CELVA<strong>PROD</strong>
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ export default function ServiceDetail({ service }: ServiceDetailProps) {
         </div>
       </div>
 
-      {service.badges && (
+      {/* {service.badges && (
         <div className={styles.badges}>
           {service.badges.map((b) => (
             <span key={b} className={styles.badge} style={{ borderColor: accent, color: accent }}>
@@ -42,7 +42,7 @@ export default function ServiceDetail({ service }: ServiceDetailProps) {
             </span>
           ))}
         </div>
-      )}
+      )} */}
 
       <div className={styles.features}>
         {service.features.map((f) => (

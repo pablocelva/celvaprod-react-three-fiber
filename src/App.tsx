@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
@@ -33,8 +33,15 @@ function Scroll3DController({ onRouteChange }: Scroll3DControllerProps) {
 
 function App() {
   const { isSceneReady } = useLoading()
+  const [loadingDone, setLoadingDone] = useState(false)
 
   useWebVitals()
+
+  useEffect(() => {
+    if (!isSceneReady || loadingDone) return
+    const timer = window.setTimeout(() => setLoadingDone(true), 700)
+    return () => window.clearTimeout(timer)
+  }, [isSceneReady, loadingDone])
 
   useEffect(() => {
     if (!isSceneReady) return
@@ -49,7 +56,7 @@ function App() {
 
   return (
     <>
-      {!isSceneReady && <LoadingScreen />}
+      {!loadingDone && <LoadingScreen fading={isSceneReady} />}
       <BrowserRouter>
         <ErrorBoundary>
           <Suspense fallback={null}>

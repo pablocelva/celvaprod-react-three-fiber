@@ -7,34 +7,99 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000;
+  background: linear-gradient(135deg, #121212 0%, #1a1124 35%, #64336e 70%, #0d0d0d 100%);
+  background-size: 300% 300%;
+  animation: gradient-shift 12s ease infinite;
+  transition: opacity 0.6s ease;
   z-index: 9999;
+}
+
+.loading-screen--fade-out {
+  opacity: 0;
 }
 
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(246, 36, 86, 0.2);
-  border-top: 3px solid #00913d;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+.loading-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 48px;
 }
 
-.loading-text {
-  color: #00913d;
-  font-size: 14px;
+.loading-eq span {
+  width: 6px;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-accent);
+  transform-origin: bottom;
+  animation: eq-bounce 0.9s ease-in-out infinite;
+}
+
+.loading-eq span:nth-child(3) {
+  background: var(--color-green);
+}
+
+.loading-eq span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-eq span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.loading-eq span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.loading-eq span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.loading-wordmark {
+  font-size: 1.6rem;
   font-weight: 500;
+  color: var(--color-light);
+  letter-spacing: 0.08em;
+  animation: wordmark-in 0.8s ease both;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+.loading-wordmark strong {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes eq-bounce {
+  0%, 100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1); }
+}
+
+@keyframes wordmark-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen {
+    animation: none;
+  }
+
+  .loading-eq span {
+    animation: none;
+  }
+
+  .loading-wordmark {
+    animation: none;
   }
 }
