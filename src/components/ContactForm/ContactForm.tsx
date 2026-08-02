@@ -8,6 +8,7 @@ export default function ContactForm() {
                 className={styles.form}
                 action="https://formspree.io/f/xjkakang"
                 method="POST"
+                aria-label="Formulario de contacto"
             >
                 <h2>Contacto</h2>
                 <label>

@@ -34,12 +34,12 @@ Los tests deben ser rápidos, deterministas y sin depender de red ni WebGL.
 # Instalado ✅
 pnpm add -D vitest jsdom
 
-# Pendiente (para tests de componentes, P2)
+# Instalado ✅
 pnpm add -D @testing-library/react @testing-library/jest-dom @testing-library/user-event
 ```
 
 - **Vitest** — nativo de Vite (misma config), sin bundler aparte, TS out-of-the-box. ✅ v4.1.10
-- **@testing-library/react + jest-dom + user-event** — testing centrado en comportamiento de usuario, no en implementación. (P2)
+- **@testing-library/react + jest-dom + user-event** — testing centrado en comportamiento de usuario, no en implementación. ✅ v16.3.2 / v7.0.0 / v14.6.1
 - **jsdom** — DOM de prueba (sin WebGL: por eso los tests de 3D se excluyen). ✅ v30.0.1
 - **Playwright** (solo si más adelante se quiere e2e) — smoke: carga, sin errores de consola, navegación, loading visible → fade.
 
@@ -55,13 +55,20 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/test/setup.ts',
+    css: {
+      modules: {
+        classNameStrategy: 'non-scoped',
+      },
+    },
   },
 })
 ```
 
-2. `package.json` → `"test": "vitest run"` y `"test:watch": "vitest"`. ✅
-3. Cuando se haga P2: `src/test/setup.ts` → `import '@testing-library/jest-dom'` y agregar
-   `setupFiles` a la config.
+2. `package.json` → `"test": "vitest run"`, `"test:watch": "vitest"` y `"typecheck": "tsc -p tsconfig.app.json --noEmit"`. ✅
+3. Hecho ✅: `src/test/setup.ts` → `import '@testing-library/jest-dom/vitest'` y `setupFiles` en la config.
+   El tsconfig raíz con `"files": []` no chequeaba nada — `tsc --noEmit` real = `tsc -p tsconfig.app.json --noEmit`.
 4. Tests **colocated**: `src/**/*.test.ts(x)` junto al módulo.
 
 ## Estrategia por capas
@@ -125,8 +132,8 @@ Solo si el flujo lo pide, con **Playwright**:
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **P1** | Datos de servicios ✅, `sceneTargets` ✅ y rutas ✅ (13 tests; `ROUTES` extraído a `src/router/routes.ts` y `App.tsx` lo usa vía `.map`). `hdrFallback` diferido a pedido del usuario | En curso |
-| **P2** | Navbar, LoadingScreen, Servicios, ContactForm (RTL) | ⬜ Pendiente |
+| **P1** | Datos de servicios ✅, `sceneTargets` ✅ y rutas ✅ (13 tests; `ROUTES` extraído a `src/router/routes.ts` y `App.tsx` lo usa vía `.map`). `hdrFallback` diferido a pedido del usuario | ✅ Hecho |
+| **P2** | Navbar, LoadingScreen, Servicios, ContactForm (RTL) — 13 tests nuevos (total 26) | ✅ Hecho |
 | **P3** | Routing + PageErrorBoundary | ⬜ Pendiente |
 | **P4** | Playwright smoke (opcional) | ⬜ Pendiente |
 
@@ -138,3 +145,4 @@ Solo si el flujo lo pide, con **Playwright**:
 - `src/data/services.ts`, `src/data/sceneTargets.ts` — datos
 - `src/App.tsx` — rutas + fade-out del loading
 - `src/components/LoadingScreen/LoadingScreen.tsx` — loading + reduced-motion
+- `src/test/setup.ts` — jest-dom + config de testing

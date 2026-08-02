@@ -1,6 +1,6 @@
 import { Environment, useEnvironment } from '@react-three/drei'
 import { Suspense, useEffect, useMemo, useState } from 'react'
-import { HDR_4K, HDR_2K, getBaselineHDR, shouldProbe } from '../../utils/hdrFallback'
+import { HDR_4K, getBaselineHDR, shouldProbe } from '../../utils/hdrFallback'
 
 const PROBE_TIMEOUT_MS = 3000
 
