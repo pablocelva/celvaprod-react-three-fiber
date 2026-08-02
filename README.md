@@ -88,6 +88,8 @@ Toda la documentación vive en `docs/`:
 | `docs/PLAN_MEJORAS.md` | Plan de mejoras con estado de cada tarea (✅/🔶/⬜) |
 | `docs/OPTIMIZATION_GUIDE.md` | Detalles técnicos de optimizaciones |
 | `docs/TROUBLESHOOTING.md` | FAQ y soluciones a problemas comunes |
+| `docs/HDRI_COMPRESSION.md` | Guía para comprimir el HDRI de ambiente (28.6MB → 2K) |
+| `docs/GLB_KTX2.md` | Estado y opciones del modelo 3D comprimido (KTX2/meshopt) |
 
 ## 🔧 Scripts
 
@@ -98,7 +100,6 @@ pnpm run preview          # Preview del build
 pnpm run lint             # ESLint check
 pnpm exec tsc -b --noEmit # Type check estricto
 pnpm run analyze:assets   # Análisis de assets
-pnpm run compress:hdr     # Guía de compresión HDRI
 ```
 
 ## 📦 Deployment

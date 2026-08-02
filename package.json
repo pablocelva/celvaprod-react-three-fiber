@@ -8,8 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "analyze:assets": "node scripts/optimize-assets.js",
-    "compress:hdr": "node scripts/compress-hdr.js"
+    "analyze:assets": "node scripts/optimize-assets.js"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.4",
