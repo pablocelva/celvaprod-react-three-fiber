@@ -56,7 +56,7 @@
 
 | Tarea | Descripción | Estado |
 |---|---|---|
-| HDRI comprimido | **Fallback adaptativo implementado**: 4K por defecto, 2K si no carga en 4s, 1K/2K directo en conexiones lentas (`saveData`/2G). Lógica en `AdaptiveEnvironment.tsx`. Detalle en `docs/HDRI_COMPRESSION.md`. | ✅ Listo |
+| HDRI comprimido | **Sonda adaptativa implementada**: línea base 2K (1K con `saveData`/`slow-2g`), sonda de 3s (`fetch` + `AbortController`) decide si sube a 4K — 4K solo cuando de verdad carga rápido (mobile incluido), sin flash ni doble descarga. Decisión pura en `src/utils/hdrFallback.ts`, orquestación en `AdaptiveEnvironment.tsx`. La pantalla de carga espera al HDRI (modelo + env). Detalle en `docs/HDRI_COMPRESSION.md`. | ✅ Listo |
 | Modelo GLB comprimido | Cambio a `scene_compressed.glb` **probado → falla**: `setKTX2Loader must be called before loading KTX2 textures`. Requiere KTX2Loader (Propuesta B) o GLB sin KTX2 (Propuesta C). Error real y propuestas en `docs/GLB_KTX2.md`. Modelo actual funcionando (`scene.gltf`). | ⬜ Pendiente (pausado) |
 | Bundle analysis | Agregar `vite-plugin-visualizer` para auditar el bundle. | ⬜ Pendiente |
 
@@ -74,7 +74,7 @@
 |---|---|---|
 | ESLint stricter | Configurado `typescript-eslint` (recomendado). TS bajado a 5.9 (compat). Lint **verde**: 0 errores. Falta: `react-hooks/exhaustive-deps`, `import/order`. | 🔶 Parcial |
 | Husky + lint-staged | Pre-commit hooks que corren ESLint automáticamente. | ⬜ Pendiente |
-| Pruebas mínimas | Vitest + React Testing Library para componentes clave. | ⬜ Pendiente |
+| Pruebas mínimas | Estrategia completa en `docs/TESTING_PLAN.md` (Vitest + RTL: lógica HDR, datos/rutas, Navbar, LoadingScreen; E2E smoke opcional). Sin sobreingeniería: no se testea WebGL/3D. | ⬜ Pendiente |
 | Scripts `scripts/*.js` → TS | Migrar los 3 scripts funcionales a `.ts` con `tsx` + `@types/node` + type-check en `tsconfig.node.json`. **Opcional/diferido**: beneficio cosmético (badge de lenguaje en GitHub) con riesgo sobre assets reales (GLB/modelo). `src/` ya es 100% TS. | 🔶 Opcional — diferido |
 
 ### SEO

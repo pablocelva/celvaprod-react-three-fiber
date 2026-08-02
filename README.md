@@ -91,6 +91,7 @@ Toda la documentación vive en `docs/`:
 | `docs/HDRI_COMPRESSION.md` | Guía para comprimir el HDRI de ambiente (28.6MB → 2K) |
 | `docs/GLB_KTX2.md` | Estado y opciones del modelo 3D comprimido (KTX2/meshopt) |
 | `docs/LOGO_PLAN.md` | Specs y plan de implementación del logo de marca |
+| `docs/TESTING_PLAN.md` | Estrategia de tests (unit/component/integration/e2e) con prioridades |
 
 ## 🔧 Scripts
 

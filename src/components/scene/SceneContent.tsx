@@ -1,15 +1,26 @@
 import { OrbitControls, useGLTF } from '@react-three/drei'
-import { Suspense, useEffect, useRef } from 'react'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import type { Group } from 'three'
 import AdaptiveEnvironment, { SceneLoadedSignal } from './AdaptiveEnvironment'
 import CameraController from './CameraController'
 import FallbackModel from './FallbackModel'
 import MicrofonoModel from './MicrofonoModel'
+import { useLoading } from '../../contexts/loadingContext'
 
 const MODEL_URL = '/microfono/scene.gltf'
 
 export default function SceneContent() {
   const modelRef = useRef<Group>(null)
+  const { setSceneReady } = useLoading()
+  const [modelReady, setModelReady] = useState(false)
+  const [envReady, setEnvReady] = useState(false)
+
+  const handleModelReady = useCallback(() => setModelReady(true), [])
+  const handleEnvReady = useCallback(() => setEnvReady(true), [])
+
+  useEffect(() => {
+    if (modelReady && envReady) setSceneReady()
+  }, [modelReady, envReady, setSceneReady])
 
   useEffect(() => {
     try {
@@ -26,10 +37,10 @@ export default function SceneContent() {
 
       <Suspense fallback={<FallbackModel modelRef={modelRef} />}>
         <MicrofonoModel modelRef={modelRef} />
-        <SceneLoadedSignal />
+        <SceneLoadedSignal onReady={handleModelReady} />
       </Suspense>
 
-      <AdaptiveEnvironment />
+      <AdaptiveEnvironment onEnvReady={handleEnvReady} />
 
       <CameraController modelRef={modelRef} />
 
