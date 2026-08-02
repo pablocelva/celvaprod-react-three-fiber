@@ -33,7 +33,7 @@
 | **2.2 Tipos de dominio** | `src/types/`: `service.ts`, `navigation.ts`, `contact.ts`, `scene.ts`, barrel `index.ts`. | ✅ Listo |
 | **2.3 Props tipadas** | `ServiceDetailProps`, `SceneContentProps`, `ErrorBoundaryProps`, `Scroll3DControllerProps`, `ServiceCard`, etc. | ✅ Listo |
 | **2.4 Migración de datos** | `src/data/services.ts` con `ServiceMap` tipado estricto. | ✅ Listo |
-| **2.5 Migración de componentes** | **Los 28 archivos del `src` son `.tsx`/`.ts`.** `tsc -b --noEmit` pasa limpio. | ✅ Listo |
+| **2.5 Migración de componentes** | **Los 28 archivos del `src` son `.tsx`/`.ts`.** `pnpm run typecheck` (`tsc -p tsconfig.app.json --noEmit`, el chequeo real — el `tsconfig.json` raíz tiene `"files": []`) pasa limpio. | ✅ Listo |
 | **2.6 Tipado de la escena 3D** | `TargetPositions`, `CameraTarget`, `RouteName` en `navigation.ts`; refs tipados `Group` en Scene3D. | ✅ Listo |
 
 ### Pilar 3 — Arquitectura clara
@@ -74,7 +74,7 @@
 |---|---|---|
 | ESLint stricter | Configurado `typescript-eslint` (recomendado). TS bajado a 5.9 (compat). Lint **verde**: 0 errores. Falta: `react-hooks/exhaustive-deps`, `import/order`. | 🔶 Parcial |
 | Husky + lint-staged | Pre-commit hooks que corren ESLint automáticamente. | ⬜ Pendiente |
-| Pruebas mínimas | Estrategia completa en `docs/TESTING_PLAN.md` (Vitest + RTL: lógica HDR, datos/rutas, Navbar, LoadingScreen; E2E smoke opcional). Sin sobreingeniería: no se testea WebGL/3D. | ⬜ Pendiente |
+| Pruebas mínimas | **Suite completa con Vitest + RTL (47 tests)**: lógica HDRI (`hdrFallback` — baseline, sonda con fake timers), datos de servicios, `sceneTargets`, rutas (`routes` + integración), componentes (Navbar, LoadingScreen, Servicios, ContactForm) y `PageErrorBoundary`. Scripts `test`/`test:watch`/`typecheck` en `package.json`. E2E smoke (P4, Playwright) opcional aún no decidido. Detalle en `docs/TESTING_PLAN.md`. Sin sobreingeniería: no se testea WebGL/3D. | ✅ Listo |
 | Scripts `scripts/*.js` → TS | Migrar los 3 scripts funcionales a `.ts` con `tsx` + `@types/node` + type-check en `tsconfig.node.json`. **Opcional/diferido**: beneficio cosmético (badge de lenguaje en GitHub) con riesgo sobre assets reales (GLB/modelo). `src/` ya es 100% TS. | 🔶 Opcional — diferido |
 
 ### SEO
@@ -106,6 +106,8 @@
 | Animación de entrada | Fade-in + slide-up en todas las páginas vía `useFadeIn`. |
 | Navbar | Padding reducido, hover unificado (desplazamiento + amarillo) en logo, links e iconos. |
 | Responsive contacto | Formulario con `width: 85%` en mobile, mismo comportamiento que las cards. |
+| Gradiente fluido en el loading | Fondo animado vía pseudo-elemento con `transform: translate` (en vez de `background-position`, que repintaba), deriva sutil de 16s. |
+| ARIA en formulario | `aria-label="Formulario de contacto"` en el `<form>` de ContactForm → nombre accesible (expone el rol `form`). |
 
 ---
 
@@ -113,10 +115,10 @@
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-5, HDRI adaptativo | ✅ Listo |
+| **Completado** | Layout compartido `<Outlet />`, ContentPanel, separación Scene3D, CSS Modules, selectores de clase, ESLint funcional, estado de carga global (3.4), error boundaries por página (3.5), SEO pasos 1-5, HDRI adaptativo, suite de tests (P1-P3) | ✅ Listo |
 | **Ahora** | Logo (`docs/LOGO_PLAN.md`) | ⬜ Pendiente |
 | **Siguiente** | ESLint stricter (`exhaustive-deps`, `import/order`), overlay de transición, ARIA labels | ⬜ Pendiente |
-| **Después** | Modelo GLB comprimido (requiere KTX2 loader, pausado), scripts → TS (opcional), sincronización cámara+contenido, cambio de ambiente por sección, pruebas, husky, bundle analysis | ⬜ Pendiente |
+| **Después** | Modelo GLB comprimido (requiere KTX2 loader, pausado), scripts → TS (opcional), sincronización cámara+contenido, cambio de ambiente por sección, husky, bundle analysis | ⬜ Pendiente |
 
 ---
 

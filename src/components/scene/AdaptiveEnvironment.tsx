@@ -1,6 +1,6 @@
 import { Environment, useEnvironment } from '@react-three/drei'
 import { Suspense, useEffect, useMemo, useState } from 'react'
-import { HDR_4K, getBaselineHDR, shouldProbe } from '../../utils/hdrFallback'
+import { HDR_4K, getBaselineHDR, probe4K, shouldProbe } from '../../utils/hdrFallback'
 
 const PROBE_TIMEOUT_MS = 3000
 
@@ -30,19 +30,16 @@ export default function AdaptiveEnvironment({ onEnvReady }: AdaptiveEnvironmentP
   useEffect(() => {
     if (probeDone) return
 
-    const controller = new AbortController()
-    const timer = window.setTimeout(() => setProbeDone(true), PROBE_TIMEOUT_MS)
+    let cancelled = false
 
-    fetch(HDR_4K, { signal: controller.signal })
-      .then((res) => {
-        if (!controller.signal.aborted && res.ok) setFiles(HDR_4K)
-        setProbeDone(true)
-      })
-      .catch(() => {})
+    probe4K(HDR_4K, PROBE_TIMEOUT_MS).then((use4k) => {
+      if (cancelled) return
+      if (use4k) setFiles(HDR_4K)
+      setProbeDone(true)
+    })
 
     return () => {
-      window.clearTimeout(timer)
-      controller.abort()
+      cancelled = true
     }
   }, [probeDone])
 

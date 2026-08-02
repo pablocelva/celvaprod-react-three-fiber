@@ -16,8 +16,8 @@ Archivos en `public/enviorments/`:
 
 ## Cómo funciona
 
-Lógica en `src/utils/hdrFallback.ts` (funciones puras `getBaselineHDR` / `shouldProbe`) y
-`src/components/scene/AdaptiveEnvironment.tsx` (sonda + Suspense):
+Lógica en `src/utils/hdrFallback.ts` (funciones puras `getBaselineHDR` / `shouldProbe` / `probe4K`) y
+`src/components/scene/AdaptiveEnvironment.tsx` (orquesta la sonda + Suspense):
 
 1. **Línea base** (`getBaselineHDR()`): sin API de conexión → **2K**; `saveData` o
    `slow-2g` → **1K**; resto → **2K**. Nunca se arranca en 4K.
@@ -86,8 +86,9 @@ Consecuencias honestas de la estrictez de la sonda:
 
 - `PROBE_TIMEOUT_MS` (default 3000): ventana de la sonda. Subirlo = más chances de 4K pero más
   espera/datos; bajarlo = menos 4K y menos espera.
-- `getBaselineHDR()` / `shouldProbe()` en `src/utils/hdrFallback.ts`: dónde entrar 1K vs 2K y
-  cuándo sondear (testeables con Vitest, ver `docs/TESTING_PLAN.md`).
+- `getBaselineHDR()` / `shouldProbe()` / `probe4K()` en `src/utils/hdrFallback.ts`: dónde entrar 1K vs 2K,
+  cuándo sondear y la sonda en sí (`probe4K(url, timeoutMs, fetcher)` es pura e inyecta `fetch`) — ya
+  cubiertos con 13 tests de Vitest (fake timers + mock de fetch), ver `docs/TESTING_PLAN.md`.
 
 ## Alternativa pendiente (no aplicada)
 

@@ -79,7 +79,7 @@ Extraer la lógica de decisión a funciones puras y testearlas sin renderizar na
 
 | Módulo | Qué testear | Archivo |
 |---|---|---|
-| **HDRI adaptativo** | ✅ Ya extraído a `src/utils/hdrFallback.ts`. Testear `getBaselineHDR()` (saveData/slow-2g → 1K; resto → 2K) y `shouldProbe()` (sin API → true; `4g` → true; `2g`/`3g`/`saveData` → false) mockeando `navigator.connection`. La sonda (fetch + `AbortController` + timeout) se testea con `vi.useFakeTimers` y mock de `global.fetch`. | `src/utils/hdrFallback.ts` |
+| **HDRI adaptativo** | ✅ Hecho: `src/utils/hdrFallback.test.ts` (13 tests). `getBaselineHDR` (sin API → 2K; saveData/slow-2g → 1K; 4g/3g → 2K) y `shouldProbe` (sin API → true; 4g → true; 2g/3g → false) mockeando `navigator.connection`. La sonda se extrajo a `probe4K(url, timeoutMs, fetcher)` (función pura, inyecta `fetch`) y se testea con `vi.useFakeTimers` + mock de fetch (ok → true, !ok → false, reject → false, timeout aborta → false). `AdaptiveEnvironment.tsx` la usa. | `src/utils/hdrFallback.ts` |
 | **Datos de servicios** | Integridad: 3 servicios, cada uno con `link` válido, `color`, `title` no vacío. | `src/data/services.ts` |
 | **sceneTargets** | Que cada ruta (`/`, `/servicios`, `/servicios/composicion`, …) tenga targets desktop y mobile definidos. | `src/data/sceneTargets.ts` |
 | **Rutas** | Que las 6 rutas de `App.tsx` existan y no haya duplicados. | `src/App.tsx` |
@@ -132,10 +132,10 @@ Solo si el flujo lo pide, con **Playwright**:
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **P1** | Datos de servicios ✅, `sceneTargets` ✅ y rutas ✅ (13 tests; `ROUTES` extraído a `src/router/routes.ts` y `App.tsx` lo usa vía `.map`). `hdrFallback` diferido a pedido del usuario | ✅ Hecho |
+| **P1** | Datos de servicios ✅, `sceneTargets` ✅, rutas ✅ y `hdrFallback` ✅ (26 tests: 4+5+4+13; `ROUTES` extraído a `src/router/routes.ts` y `App.tsx` lo usa vía `.map`; sonda extraída a `probe4K` pura) | ✅ Hecho |
 | **P2** | Navbar, LoadingScreen, Servicios, ContactForm (RTL) — 13 tests nuevos (total 26) | ✅ Hecho |
 | **P3** | `src/router/routing.test.tsx` (las 6 rutas renderizan su página, con `PageErrorBoundary` + `Suspense` + `MemoryRouter`) y `PageErrorBoundary.test.tsx` (fallback con error, hijos sin error) — 8 tests nuevos (total 34) | ✅ Hecho |
-| **P4** | Playwright smoke (opcional) | ⬜ Pendiente |
+| **P4** | Playwright smoke (opcional — aún no decidido) | ⬜ Pendiente |
 
 ## Archivos de referencia
 

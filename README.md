@@ -14,7 +14,11 @@ pnpm run build
 pnpm run preview
 
 # Type Check
-pnpm exec tsc -b --noEmit
+pnpm run typecheck
+
+# Tests (Vitest + React Testing Library)
+pnpm run test          # Ejecuta toda la suite una vez
+pnpm run test:watch    # Modo watch
 
 # Lint
 pnpm run lint
@@ -33,6 +37,7 @@ pnpm run lint
 - Code splitting por ruta (chunks separados)
 - Error handling robusto (ErrorBoundary en la escena 3D + PageErrorBoundary por ruta)
 - Web Vitals monitoring
+- **Suite de tests**: 47 tests (Vitest + React Testing Library) — lógica HDRI adaptativa, datos, rutas, componentes y error boundaries
 
 ## 🏗️ Architecture
 
@@ -74,6 +79,12 @@ src/
 │   ├── Clases/                   # Detalle clases
 │   └── Contacto/                 # Contacto (usa ContactForm)
 ├── types/                       # Tipos de dominio (service, navigation, contact, scene)
+├── router/
+│   └── routes.ts                # ROUTES: fuente única de las 6 rutas lazy (App.tsx las mapea)
+├── utils/
+│   └── hdrFallback.ts           # Lógica adaptativa del HDRI (getBaselineHDR/shouldProbe/probe4K)
+├── test/
+│   └── setup.ts                 # Setup de tests (jest-dom)
 ├── App.tsx                      # App principal (routing + scene ready)
 ├── App.css                      # Solo reset + variables/tokens (sin estilos de componente)
 └── main.tsx                     # Entry point
@@ -91,7 +102,7 @@ Toda la documentación vive en `docs/`:
 | `docs/HDRI_COMPRESSION.md` | Guía para comprimir el HDRI de ambiente (28.6MB → 2K) |
 | `docs/GLB_KTX2.md` | Estado y opciones del modelo 3D comprimido (KTX2/meshopt) |
 | `docs/LOGO_PLAN.md` | Specs y plan de implementación del logo de marca |
-| `docs/TESTING_PLAN.md` | Estrategia de tests (unit/component/integration/e2e) con prioridades |
+| `docs/TESTING_PLAN.md` | Estrategia de tests con estado — P1/P2/P3 implementados (47 tests), P4 (E2E) opcional |
 
 ## 🔧 Scripts
 
@@ -100,7 +111,9 @@ pnpm run dev              # Desarrollo local
 pnpm run build            # Build producción
 pnpm run preview          # Preview del build
 pnpm run lint             # ESLint check
-pnpm exec tsc -b --noEmit # Type check estricto
+pnpm run typecheck        # Type check estricto (tsc -p tsconfig.app.json --noEmit)
+pnpm run test             # Tests (Vitest + RTL) una sola pasada
+pnpm run test:watch       # Tests en modo watch
 pnpm run analyze:assets   # Análisis de assets
 ```
 
@@ -136,7 +149,8 @@ Dist chunks:       max-age=31536000 (1 año, immutable)
 - Tipado estricto en toda la app
 - Hook `useFadeIn` para animaciones consistentes
 - SEO: meta/OG/Twitter, canonical, `robots.txt`, `sitemap.xml`, JSON-LD (`WebSite` + `Organization`), manifest PWA + prefetch de rutas
-- HDRI adaptativo: 4K por defecto, fallback a 2K (timeout) o 1K/2K directo en conexiones lentas
+- HDRI adaptativo: sonda de 3s mide si el 4K carga rápido; línea base 2K (1K con `saveData`/`slow-2g`), sin flash ni doble descarga
+- Suite de tests: Vitest + React Testing Library (47 tests: `hdrFallback`, datos, rutas, componentes, error boundaries)
 
 ## 🛠️ Tech Stack
 
@@ -147,6 +161,8 @@ Dist chunks:       max-age=31536000 (1 año, immutable)
 - @react-three/drei 10.7.4
 - React Router 7.8.2
 - Vite 7.x
+- Vitest 4.1.10 + jsdom (testing)
+- React Testing Library 16.3 + jest-dom + user-event (component tests)
 - pnpm (package manager)
 
 ## 📝 License

@@ -25,3 +25,19 @@ export function shouldProbe(): boolean {
   if (!conn) return true
   return conn.effectiveType === '4g'
 }
+
+export function probe4K(
+  url: string,
+  timeoutMs: number,
+  fetcher: typeof fetch = fetch,
+): Promise<boolean> {
+  return new Promise((resolve) => {
+    const controller = new AbortController()
+    const timer = window.setTimeout(() => controller.abort(), timeoutMs)
+
+    fetcher(url, { signal: controller.signal })
+      .then((res) => resolve(res.ok && !controller.signal.aborted))
+      .catch(() => resolve(false))
+      .finally(() => window.clearTimeout(timer))
+  })
+}
