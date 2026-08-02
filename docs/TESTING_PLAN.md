@@ -125,7 +125,7 @@ Solo si el flujo lo pide, con **Playwright**:
 
 | Prioridad | Tareas | Estado |
 |---|---|---|
-| **P1** | Datos de servicios ✅ y `sceneTargets` ✅ (9 tests); rutas (requiere extraer `ROUTES` de `App.tsx`); `hdrFallback` (diferido a pedido del usuario — probar primero lo simple) | En curso |
+| **P1** | Datos de servicios ✅, `sceneTargets` ✅ y rutas ✅ (13 tests; `ROUTES` extraído a `src/router/routes.ts` y `App.tsx` lo usa vía `.map`). `hdrFallback` diferido a pedido del usuario | En curso |
 | **P2** | Navbar, LoadingScreen, Servicios, ContactForm (RTL) | ⬜ Pendiente |
 | **P3** | Routing + PageErrorBoundary | ⬜ Pendiente |
 | **P4** | Playwright smoke (opcional) | ⬜ Pendiente |

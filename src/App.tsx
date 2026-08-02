@@ -8,14 +8,9 @@ import PageErrorBoundary from './components/PageErrorBoundary/PageErrorBoundary'
 import PageLayout from './layouts/PageLayout'
 import { useWebVitals } from './hooks/useWebVitals'
 import { useLoading } from './contexts/loadingContext'
+import { ROUTES } from './router/routes'
 
 const Scene3D = lazy(() => import('./components/scene/Scene3D'))
-const Home = lazy(() => import('./pages/Home/Home'))
-const Servicios = lazy(() => import('./pages/Servicios/Servicios'))
-const Composicion = lazy(() => import('./pages/Composicion/Composicion'))
-const Produccion = lazy(() => import('./pages/Produccion/Produccion'))
-const Clases = lazy(() => import('./pages/Clases/Clases'))
-const Contacto = lazy(() => import('./pages/Contacto/Contacto'))
 
 interface Scroll3DControllerProps {
   onRouteChange: (path: string) => void
@@ -71,12 +66,17 @@ function App() {
           <Suspense fallback={null}>
             <Routes>
               <Route element={<PageLayout />}>
-                <Route path="/" element={<PageErrorBoundary><Home /></PageErrorBoundary>} />
-                <Route path="/servicios" element={<PageErrorBoundary><Servicios /></PageErrorBoundary>} />
-                <Route path="/servicios/composicion" element={<PageErrorBoundary><Composicion /></PageErrorBoundary>} />
-                <Route path="/servicios/produccion" element={<PageErrorBoundary><Produccion /></PageErrorBoundary>} />
-                <Route path="/servicios/clases" element={<PageErrorBoundary><Clases /></PageErrorBoundary>} />
-                <Route path="/contacto" element={<PageErrorBoundary><Contacto /></PageErrorBoundary>} />
+                {ROUTES.map(({ path, Component }) => (
+                  <Route
+                    key={path}
+                    path={path}
+                    element={
+                      <PageErrorBoundary>
+                        <Component />
+                      </PageErrorBoundary>
+                    }
+                  />
+                ))}
               </Route>
             </Routes>
           </Suspense>
